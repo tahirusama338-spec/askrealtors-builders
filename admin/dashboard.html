@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | ASK Realtors & Builders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<!-- ===== ADMIN SIDEBAR ===== -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="sidebar-brand">
+    <div class="logo-icon-sm">ASK</div>
+    <div>
+      <span class="brand-name">ASK Realtors</span>
+      <span class="brand-sub">Admin Dashboard</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="#" class="sidebar-link active" id="sNav-dashboard" onclick="showSection('dashboard')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="sidebar-link" id="sNav-listings" onclick="showSection('listings')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Listings
+    </a>
+    <a href="#" class="sidebar-link" id="sNav-buyers" onclick="showSection('buyers')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Buyer Requirements
+    </a>
+    <a href="#" class="sidebar-link" id="sNav-inquiries" onclick="showSection('inquiries')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      Inquiries / Leads
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="../index.html" class="sidebar-link-sm">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      View Public Site
+    </a>
+    <button class="sidebar-link-sm" onclick="logout()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+      Logout
+    </button>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="admin-main">
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <span id="pageSubtitle">Welcome back, Admin</span>
+    </div>
+    <div class="header-actions">
+      <div class="header-date" id="headerDate"></div>
+      <a href="../submit.html" target="_blank" class="btn-admin-sm">+ New Listing</a>
+    </div>
+  </header>
+
+  <!-- ===== DASHBOARD SECTION ===== -->
+  <section class="admin-section active" id="sec-dashboard">
+    <!-- Analytics Cards -->
+    <div class="analytics-grid" id="analyticsGrid"></div>
+
+    <!-- Recent Activity -->
+    <div class="dashboard-grid">
+      <div class="dash-card">
+        <h3>Recent Listings</h3>
+        <div class="dash-table-wrap" id="recentListings"></div>
+      </div>
+      <div class="dash-card">
+        <h3>Recent Inquiries</h3>
+        <div class="dash-table-wrap" id="recentInquiries"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LISTINGS SECTION ===== -->
+  <section class="admin-section" id="sec-listings">
+    <div class="section-toolbar">
+      <h2>All Listings <span class="count-badge" id="listingsCount">0</span></h2>
+      <div class="toolbar-filters">
+        <select id="lFilter" onchange="renderListingsTable()">
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="active">Active</option>
+          <option value="sold">Sold</option>
+        </select>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="listingsTable">
+        <thead><tr>
+          <th>ID</th><th>Title</th><th>Society</th><th>Size</th><th>Price</th>
+          <th>Status</th><th>Featured</th><th>Exclusive</th>
+          <th>Seller Contact <span class="private-tag">PRIVATE</span></th><th>Actions</th>
+        </tr></thead>
+        <tbody id="listingsTbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== BUYERS SECTION ===== -->
+  <section class="admin-section" id="sec-buyers">
+    <div class="section-toolbar">
+      <h2>Buyer Requirements <span class="count-badge" id="buyersCount">0</span></h2>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="buyersTable">
+        <thead><tr>
+          <th>ID</th><th>Title</th><th>Society</th><th>Size</th><th>Budget</th>
+          <th>Status</th>
+          <th>Buyer Contact <span class="private-tag">PRIVATE</span></th><th>Actions</th>
+        </tr></thead>
+        <tbody id="buyersTbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== INQUIRIES SECTION ===== -->
+  <section class="admin-section" id="sec-inquiries">
+    <div class="section-toolbar">
+      <h2>Inquiries / Leads <span class="count-badge" id="inquiriesCount">0</span></h2>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="inquiriesTable">
+        <thead><tr>
+          <th>ID</th><th>Name</th><th>Phone</th><th>Email</th>
+          <th>Related To</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="inquiriesTbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- Detail Modal -->
+<div class="admin-modal-overlay" id="adminModal" onclick="closeAdminModal(event)">
+  <div class="admin-modal" id="adminModalContent"></div>
+</div>
+
+<script src="../js/data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

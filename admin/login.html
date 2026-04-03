@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | ASK Realtors & Builders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a1628; --navy-dark: #060e1a; --gold: #c9a84c; --gold-dark: #a07830;
+      --white: #ffffff; --gray-100: #f3f4f6; --gray-200: #e5e7eb; --gray-400: #9ca3af;
+      --error: #ef4444; --font-heading: 'Playfair Display', Georgia, serif; --font-body: 'Inter', sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--navy-dark); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; position: relative; overflow: hidden; }
+    body::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, rgba(201,168,76,0.06) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(18,32,64,0.8) 0%, transparent 50%); }
+
+    .login-wrap { position: relative; z-index: 1; width: 100%; max-width: 420px; }
+
+    .login-brand { text-align: center; margin-bottom: 32px; }
+    .logo-icon { width: 60px; height: 60px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; color: var(--white); font-size: 1.2rem; margin: 0 auto 12px; }
+    .login-brand h2 { font-family: var(--font-heading); color: var(--white); font-size: 1.4rem; margin-bottom: 4px; }
+    .login-brand p { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
+
+    .login-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.15); border-radius: 24px; padding: 40px; backdrop-filter: blur(20px); }
+    .login-card h3 { color: var(--white); font-size: 1.2rem; margin-bottom: 8px; font-family: var(--font-heading); }
+    .login-card > p { color: rgba(255,255,255,0.45); font-size: 0.85rem; margin-bottom: 28px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input { padding: 12px 16px; border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.9rem; background: rgba(255,255,255,0.05); color: var(--white); transition: all 0.3s; outline: none; }
+    .form-group input::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
+
+    .btn-login { width: 100%; padding: 14px; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--white); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s; letter-spacing: 0.5px; margin-top: 8px; }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+
+    .login-hint { margin-top: 20px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .login-hint strong { color: var(--gold); }
+
+    .error-msg { color: var(--error); font-size: 0.82rem; margin-top: 8px; display: none; }
+    .back-link { text-align: center; margin-top: 20px; font-size: 0.82rem; color: rgba(255,255,255,0.35); }
+    .back-link a { color: var(--gold); transition: color 0.3s; }
+    .back-link a:hover { color: #e5c570; }
+  </style>
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-brand">
+    <div class="logo-icon">ASK</div>
+    <h2>ASK Realtors & Builders</h2>
+    <p>Admin Portal</p>
+  </div>
+  <div class="login-card">
+    <h3>Secure Login</h3>
+    <p>Enter your credentials to access the admin dashboard.</p>
+    <form id="loginForm">
+      <div class="form-group"><label>Username</label><input type="text" id="username" placeholder="admin" autocomplete="username" /></div>
+      <div class="form-group"><label>Password</label><input type="password" id="password" placeholder="••••••••" autocomplete="current-password" /></div>
+      <p class="error-msg" id="loginError">Invalid username or password.</p>
+      <button type="submit" class="btn-login">Login to Dashboard</button>
+    </form>
+    <div class="login-hint">Default credentials: <strong>admin</strong> / <strong>ask2024</strong></div>
+  </div>
+  <div class="back-link"><a href="../index.html">← Back to Public Site</a></div>
+</div>
+<script>
+const ADMIN_CREDS = { username: 'admin', password: 'ask2024' };
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value.trim();
+  const err = document.getElementById('loginError');
+  if (u === ADMIN_CREDS.username && p === ADMIN_CREDS.password) {
+    sessionStorage.setItem('ask_admin_auth', '1');
+    window.location.href = 'dashboard.html';
+  } else {
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+});
+// If already logged in
+if (sessionStorage.getItem('ask_admin_auth')) window.location.href = 'dashboard.html';
+</script>
+</body>
+</html>

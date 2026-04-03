@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASK Realtors & Builders | Premium Real Estate Multan</title>
+  <meta name="description" content="ASK Realtors & Builders — Your trusted real estate partner in Multan. Buy, sell, and invest in premium properties in DHA, Royal Orchard, Buch Villas & more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">ASK</div>
+      <div class="logo-text">
+        <span class="logo-name">ASK Realtors</span>
+        <span class="logo-sub">& Builders</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link active">Home</a></li>
+      <li><a href="listings.html" class="nav-link">Properties</a></li>
+      <li><a href="exclusive.html" class="nav-link">Exclusive</a></li>
+      <li><a href="submit.html" class="nav-link">Post Property</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+      <li><a href="contact.html" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="https://wa.me/923029264972" target="_blank" class="btn btn-whatsapp" id="navWhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-slider" id="heroSlider">
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1920&q=80')"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Multan's Premier Real Estate Partner</div>
+    <h1 class="hero-title">Find Your <span class="gold-text">Dream Property</span><br/>With Trusted Experts</h1>
+    <p class="hero-subtitle">Over 6 years of excellence in DHA, Royal Orchard, Buch Villas & WAPDA Town. Your privacy protected. Your investment secured.</p>
+    <div class="hero-btns">
+      <a href="listings.html" class="btn btn-gold" id="heroBrowse">Browse Properties</a>
+      <a href="submit.html" class="btn btn-outline-white" id="heroPost">Post Your Property</a>
+    </div>
+  </div>
+  <!-- Search Bar -->
+  <div class="hero-search">
+    <div class="search-container">
+      <h3 class="search-title">Search Properties</h3>
+      <div class="search-grid">
+        <div class="search-field">
+          <label>City</label>
+          <select id="searchCity">
+            <option value="">All Cities</option>
+            <option value="Multan">Multan</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Islamabad">Islamabad</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Society</label>
+          <select id="searchSociety">
+            <option value="">All Societies</option>
+            <option value="DHA">DHA</option>
+            <option value="Royal Orchard">Royal Orchard</option>
+            <option value="Buch Villas">Buch Villas</option>
+            <option value="WAPDA Town">WAPDA Town</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Plot Size</label>
+          <select id="searchSize">
+            <option value="">Any Size</option>
+            <option value="5 Marla">5 Marla</option>
+            <option value="10 Marla">10 Marla</option>
+            <option value="1 Kanal">1 Kanal</option>
+            <option value="2 Kanal">2 Kanal</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Budget</label>
+          <select id="searchBudget">
+            <option value="">Any Budget</option>
+            <option value="under-1cr">Under 1 Crore</option>
+            <option value="1cr-3cr">1 – 3 Crore</option>
+            <option value="3cr-5cr">3 – 5 Crore</option>
+            <option value="above-5cr">Above 5 Crore</option>
+          </select>
+        </div>
+        <button class="btn btn-gold search-btn" id="heroSearchBtn" onclick="doSearch()">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<section class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" data-target="200">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Properties Listed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="450">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Happy Clients</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="6">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Years of Trust</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="4">0</span><span class="stat-suffix"></span>
+        <span class="stat-label">Premium Societies</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED LISTINGS ===== -->
+<section class="section featured-section" id="featuredSection">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Featured Properties</div>
+      <h2 class="section-title">Handpicked <span class="gold-text">Premium Listings</span></h2>
+      <p class="section-subtitle">Curated properties from trusted sellers across Multan's finest societies</p>
+    </div>
+    <div class="listings-grid" id="featuredGrid">
+      <!-- JS populated -->
+    </div>
+    <div class="section-cta">
+      <a href="listings.html" class="btn btn-gold" id="viewAllListings">View All Properties</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXCLUSIVE SECTION TEASER ===== -->
+<section class="exclusive-teaser">
+  <div class="container">
+    <div class="exclusive-content">
+      <div class="exclusive-text">
+        <div class="exclusive-badge">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Exclusively by ASK Realtors
+        </div>
+        <h2>Our Exclusive <span class="gold-text">Portfolio</span></h2>
+        <p>Discover properties exclusively owned and managed by ASK Realtors & Builders — offering you the finest real estate with direct assurance and absolute trust.</p>
+        <a href="exclusive.html" class="btn btn-gold" id="viewExclusive">Explore Exclusive Properties</a>
+      </div>
+      <div class="exclusive-img-grid">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80" alt="Exclusive Property 1" class="excl-img excl-img-1" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Exclusive Property 2" class="excl-img excl-img-2" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Exclusive Property 3" class="excl-img excl-img-3" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUYER REQUIREMENTS ===== -->
+<section class="section buyer-section" id="buyerSection">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Active Buyers</div>
+      <h2 class="section-title">Buyer <span class="gold-text">Requirements</span></h2>
+      <p class="section-subtitle">Active buyers looking for properties — connect via ASK Realtors only</p>
+    </div>
+    <div class="buyer-ticker-wrap">
+      <div class="buyer-ticker" id="buyerTicker"><!-- JS --></div>
+    </div>
+    <div class="buyer-grid" id="buyerGrid"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section how-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Our Process</div>
+      <h2 class="section-title">How It <span class="gold-text">Works</span></h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="step-num">01</div>
+        <h3>Submit Property</h3>
+        <p>Sellers list their property details and images. All contact info stays private in our secure system.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <div class="step-num">02</div>
+        <h3>Browse & Match</h3>
+        <p>Buyers explore listings privately. Buyer requirements are matched with available properties.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div class="step-num">03</div>
+        <h3>Contact ASK</h3>
+        <p>All inquiries route through ASK Realtors & Builders — your trusted intermediary ensuring privacy and security.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="step-num">04</div>
+        <h3>Deal Closed</h3>
+        <p>We facilitate the transaction with full professionalism, documentation support and peace of mind.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOCIETIES ===== -->
+<section class="societies-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">We Operate In</div>
+      <h2 class="section-title">Premier <span class="gold-text">Societies</span></h2>
+    </div>
+    <div class="societies-grid">
+      <a href="listings.html?society=DHA" class="society-card">
+        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500&q=80" alt="DHA Multan" loading="lazy"/>
+        <div class="society-overlay">
+          <h3>DHA Multan</h3>
+          <span>View Properties →</span>
+        </div>
+      </a>
+      <a href="listings.html?society=Royal+Orchard" class="society-card">
+        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=500&q=80" alt="Royal Orchard" loading="lazy"/>
+        <div class="society-overlay">
+          <h3>Royal Orchard</h3>
+          <span>View Properties →</span>
+        </div>
+      </a>
+      <a href="listings.html?society=Buch+Villas" class="society-card">
+        <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=500&q=80" alt="Buch Villas" loading="lazy"/>
+        <div class="society-overlay">
+          <h3>Buch Villas</h3>
+          <span>View Properties →</span>
+        </div>
+      </a>
+      <a href="listings.html?society=WAPDA+Town" class="society-card">
+        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=500&q=80" alt="WAPDA Town" loading="lazy"/>
+        <div class="society-overlay">
+          <h3>WAPDA Town</h3>
+          <span>View Properties →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Client Stories</div>
+      <h2 class="section-title">What Our Clients <span class="gold-text">Say</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"ASK Realtors made the entire process seamless. We found our dream home in DHA Multan within weeks, with full privacy and zero hassle."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MK</div>
+          <div><strong>Muhammad Kamran</strong><span>Buyer – DHA Phase 1</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card featured-testimonial">
+        <div class="stars">★★★★★</div>
+        <p>"Sold my 1 Kanal plot in Royal Orchard in under 3 weeks. Professional team, great exposure, and my contact details were never shared publicly."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SA</div>
+          <div><strong>Saira Ahmed</strong><span>Seller – Royal Orchard</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Best real estate experience in Multan. Transparent, trustworthy, and absolutely professional from start to finish."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AR</div>
+          <div><strong>Asim Raza</strong><span>Investor – WAPDA Town</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to Buy, Sell or Invest?</h2>
+      <p>Talk to our experts today — your privacy is fully protected.</p>
+      <div class="cta-btns">
+        <a href="https://wa.me/923029264972" target="_blank" class="btn btn-gold" id="ctaWhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Us Now
+        </a>
+        <a href="submit.html" class="btn btn-outline-gold" id="ctaPost">Post Your Property</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="logo-icon">ASK</div>
+          <div class="logo-text">
+            <span class="logo-name">ASK Realtors</span>
+            <span class="logo-sub">& Builders</span>
+          </div>
+        </div>
+        <p>Your trusted real estate partner in Multan for over 6 years. Connecting buyers and sellers with privacy, transparency, and excellence.</p>
+        <div class="social-links">
+          <a href="https://facebook.com/askrealtorsbuilders" target="_blank" class="social-link" aria-label="Facebook">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://wa.me/923029264972" target="_blank" class="social-link" aria-label="WhatsApp">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="listings.html">All Properties</a></li>
+          <li><a href="exclusive.html">Exclusive Listings</a></li>
+          <li><a href="submit.html">Post Property</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Societies</h4>
+        <ul>
+          <li><a href="listings.html?society=DHA">DHA Multan</a></li>
+          <li><a href="listings.html?society=Royal+Orchard">Royal Orchard</a></li>
+          <li><a href="listings.html?society=Buch+Villas">Buch Villas</a></li>
+          <li><a href="listings.html?society=WAPDA+Town">WAPDA Town</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact ASK</h4>
+        <div class="footer-contact">
+          <a href="tel:+923029264972" class="contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            +92 302 9264972
+          </a>
+          <a href="mailto:askrealtorsbuilders@gmail.com" class="contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            askrealtorsbuilders@gmail.com
+          </a>
+          <a href="https://wa.me/923029264972" target="_blank" class="contact-item">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp Chat
+          </a>
+          <span class="contact-item">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Multan, Punjab, Pakistan
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 ASK Realtors & Builders. All rights reserved. | Proudly serving Multan's real estate market.</p>
+      <a href="admin/login.html" class="admin-link">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== WHATSAPP FLOATING BTN ===== -->
+<a href="https://wa.me/923029264972" target="_blank" class="whatsapp-float" id="whatsappFloat" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-tooltip">Chat with us!</span>
+</a>
+
+<!-- ===== INQUIRY MODAL ===== -->
+<div class="modal-overlay" id="inquiryModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="modal-header">
+      <h3>Contact ASK Realtors</h3>
+      <p>Submit your inquiry and we'll get back to you shortly.</p>
+    </div>
+    <form class="modal-form" id="inquiryForm">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" id="inqName" placeholder="Full Name" required />
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="inqPhone" placeholder="+92 3XX XXXXXXX" required />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="inqEmail" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="inqMessage" placeholder="Tell us about your requirements..." rows="4"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-gold btn-full" id="submitInquiry">Send Inquiry</button>
+        <a href="https://wa.me/923029264972" target="_blank" class="btn btn-whatsapp btn-full">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Directly
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/* ===== EXCLUSIVE PAGE CSS ===== */
+
+.exclusive-page-hero {
+  min-height: 600px;
+  margin-top: var(--nav-height);
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.exclusive-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(18,32,64,0.85) 50%, rgba(10,22,40,0.95) 100%),
+    url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80') center/cover no-repeat;
+}
+
+.exclusive-hero-content {
+  max-width: 680px;
+  position: relative;
+  z-index: 1;
+}
+
+.excl-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--white);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.exclusive-hero-content h1 {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.exclusive-hero-content p {
+  color: rgba(255,255,255,0.75);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+/* Trust Badges */
+.excl-trust {
+  background: var(--off-white);
+  padding: 32px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.trust-badges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+}
+
+.trust-badge svg {
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.trust-badge strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.trust-badge span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+  .trust-badges { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .trust-badges { grid-template-columns: 1fr; gap: 16px; }
+  .exclusive-hero-content { padding: 0 16px; }
+}
