@@ -1,8 +1,13 @@
 /**
- * ASK Realtors & Builders — Central Data Store
- * All private contact info is only in the admin layer
- * Public listings contain ZERO seller/buyer contact info
+ * ASK Realtors & Builders — Central Data Store  v2
+ * All private contact info lives in the admin layer only.
+ * Public listings contain ZERO seller/buyer contact info.
+ *
+ * Schema v2 adds: plot_size_value, plot_size_unit,
+ *   price_per_unit, total_price, custom_property_type
  */
+
+const DB_VERSION = '2'; // bump to force reseed on schema change
 
 // ============================================================
 // SEED DATA — Sample listings, buyers, inquiries
@@ -12,11 +17,17 @@ const SEED_LISTINGS = [
   {
     id: 'L001',
     title: '1 Kanal Luxury Corner Plot in DHA Phase 1',
-    property_type: 'Plot',
+    property_type: 'Residential Plot',
+    custom_property_type: '',
     city: 'Multan',
     society: 'DHA',
     block: 'A',
+    plot_size_value: 1,
+    plot_size_unit: 'Kanal',
     plot_size: '1 Kanal',
+    price_per_unit: 32500000,
+    price_per_unit_label: '3.25 Crore',
+    total_price: 32500000,
     price: 32500000,
     price_label: '3.25 Crore',
     description: 'A prime corner plot in the most sought-after phase of DHA Multan. Perfectly level, all utilities available, in a developed street. Ideal for a dream home or investment.',
@@ -36,10 +47,16 @@ const SEED_LISTINGS = [
     id: 'L002',
     title: '10 Marla Modern Villa — Royal Orchard Block C',
     property_type: 'House',
+    custom_property_type: '',
     city: 'Multan',
     society: 'Royal Orchard',
     block: 'C',
+    plot_size_value: 10,
+    plot_size_unit: 'Marla',
     plot_size: '10 Marla',
+    price_per_unit: 1850000,
+    price_per_unit_label: '18.5 Lakh',
+    total_price: 18500000,
     price: 18500000,
     price_label: '1.85 Crore',
     description: 'Stunning fully-furnished modern villa with 5 beds, 5 baths, double drawing room, servant quarters, and beautifully landscaped garden. Brand new construction — never lived in.',
@@ -58,11 +75,17 @@ const SEED_LISTINGS = [
   {
     id: 'L003',
     title: '5 Marla Residential Plot — Buch Villas Sector A',
-    property_type: 'Plot',
+    property_type: 'Residential Plot',
+    custom_property_type: '',
     city: 'Multan',
     society: 'Buch Villas',
     block: 'Sector A',
+    plot_size_value: 5,
+    plot_size_unit: 'Marla',
     plot_size: '5 Marla',
+    price_per_unit: 1160000,
+    price_per_unit_label: '11.6 Lakh',
+    total_price: 5800000,
     price: 5800000,
     price_label: '58 Lakh',
     description: 'Excellent 5 Marla plot in a prime location within Buch Villas. Ideal for construction with all facilities available. Road-facing, extra land benefit.',
@@ -80,11 +103,17 @@ const SEED_LISTINGS = [
   {
     id: 'L004',
     title: '2 Kanal Farmhouse — WAPDA Town Phase 2',
-    property_type: 'Farmhouse',
+    property_type: 'Farm House',
+    custom_property_type: '',
     city: 'Multan',
     society: 'WAPDA Town',
     block: 'Phase 2',
+    plot_size_value: 2,
+    plot_size_unit: 'Kanal',
     plot_size: '2 Kanal',
+    price_per_unit: 22500000,
+    price_per_unit_label: '2.25 Crore',
+    total_price: 45000000,
     price: 45000000,
     price_label: '4.5 Crore',
     description: 'Triple-story luxury farmhouse on 2 Kanal with swimming pool, fully equipped gym, rooftop sitting area, spacious garage for 4 cars. Ultimate luxury living.',
@@ -102,11 +131,17 @@ const SEED_LISTINGS = [
   {
     id: 'L005',
     title: '10 Marla Plot — DHA Phase 6 Block F',
-    property_type: 'Plot',
+    property_type: 'Residential Plot',
+    custom_property_type: '',
     city: 'Multan',
     society: 'DHA',
     block: 'F',
+    plot_size_value: 10,
+    plot_size_unit: 'Marla',
     plot_size: '10 Marla',
+    price_per_unit: 1420000,
+    price_per_unit_label: '14.2 Lakh',
+    total_price: 14200000,
     price: 14200000,
     price_label: '1.42 Crore',
     description: 'West-open 10 Marla plot in DHA Phase 6, Block F. Well-developed area with full possession. Ideal family home construction.',
@@ -125,10 +160,16 @@ const SEED_LISTINGS = [
     id: 'L006',
     title: '5 Marla Corner House — Royal Orchard Block D',
     property_type: 'House',
+    custom_property_type: '',
     city: 'Multan',
     society: 'Royal Orchard',
     block: 'D',
+    plot_size_value: 5,
+    plot_size_unit: 'Marla',
     plot_size: '5 Marla',
+    price_per_unit: 1900000,
+    price_per_unit_label: '19 Lakh',
+    total_price: 9500000,
     price: 9500000,
     price_label: '95 Lakh',
     description: 'Beautiful 5 Marla corner house with 3 beds, 3 baths, drawing room, and car porch. Ready to move in, with a well-maintained interior.',
@@ -231,6 +272,14 @@ const DB = {
   KEY_BUYER_PRIVATE: 'ask_buyer_private',
 
   init() {
+    // Version gate: on schema change, flush and reseed
+    if (localStorage.getItem('ask_db_version') !== DB_VERSION) {
+      localStorage.removeItem(this.KEY_LISTINGS);
+      localStorage.removeItem(this.KEY_BUYERS);
+      localStorage.removeItem(this.KEY_SELLER_PRIVATE);
+      localStorage.removeItem(this.KEY_BUYER_PRIVATE);
+      localStorage.setItem('ask_db_version', DB_VERSION);
+    }
     if (!localStorage.getItem(this.KEY_LISTINGS)) {
       localStorage.setItem(this.KEY_LISTINGS, JSON.stringify(SEED_LISTINGS));
     }
@@ -306,16 +355,33 @@ const DB = {
     const sellerPrivate = JSON.parse(localStorage.getItem(this.KEY_SELLER_PRIVATE) || '[]');
 
     const id = 'L' + Date.now();
+    // Ensure all v2 schema fields are stored
     const listing = {
       id,
-      ...publicData,
-      status: 'pending',
-      is_exclusive: false,
-      is_featured: false,
-      created_at: new Date().toISOString().split('T')[0],
-      images: publicData.images || [
-        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'
-      ],
+      title:                publicData.title || '',
+      property_type:        publicData.property_type || '',
+      custom_property_type: publicData.custom_property_type || '',
+      plot_size_value:      publicData.plot_size_value || 0,
+      plot_size_unit:       publicData.plot_size_unit || '',
+      plot_size:            publicData.plot_size || '',
+      price_per_unit:       publicData.price_per_unit || 0,
+      price_per_unit_label: publicData.price_per_unit_label || '',
+      total_price:          publicData.total_price || 0,
+      price:                publicData.total_price || 0,
+      price_label:          publicData.price_label || '',
+      city:                 publicData.city || '',
+      society:              publicData.society || '',
+      block:                publicData.block || '',
+      description:          publicData.description || '',
+      features:             publicData.features || [],
+      images:               (publicData.images && publicData.images.length)
+                              ? publicData.images
+                              : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'],
+      videos:               publicData.videos || [],
+      is_exclusive:         false,
+      is_featured:          false,
+      status:               'pending',
+      created_at:           new Date().toISOString().split('T')[0],
     };
     listings.push(listing);
     sellerPrivate.push({ listing_id: id, ...privateData });
@@ -445,6 +511,27 @@ function buildPropertyCard(listing) {
     ? '<span class="card-badge featured">Featured</span>'
     : '';
 
+  // Resolve size display (v2 or fallback to legacy plot_size string)
+  const sizeDisplay = listing.plot_size_value
+    ? `${listing.plot_size_value} ${listing.plot_size_unit}`
+    : (listing.plot_size || '—');
+
+  // Resolve pricing (v2 or fallback)
+  const totalPriceFmt = listing.total_price
+    ? 'PKR ' + formatPKR(listing.total_price)
+    : listing.price_label
+    ? 'PKR ' + listing.price_label
+    : listing.price ? 'PKR ' + formatPKR(listing.price) : '—';
+
+  const perUnitFmt = listing.price_per_unit
+    ? `<span style="font-size:.72rem;color:var(--text-muted)">PKR ${formatPKR(listing.price_per_unit)} / ${listing.plot_size_unit || 'unit'}</span>`
+    : '';
+
+  // Property type display
+  const typeLabel = listing.property_type === 'Other' && listing.custom_property_type
+    ? listing.custom_property_type
+    : (listing.property_type || '');
+
   const features = (listing.features || []).slice(0, 3).map(f =>
     `<span class="card-feature">
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
@@ -452,12 +539,16 @@ function buildPropertyCard(listing) {
     </span>`
   ).join('');
 
+  const imgSrc = (listing.images && listing.images[0])
+    ? listing.images[0]
+    : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
+
   return `
   <div class="property-card" data-id="${listing.id}">
     <div class="card-img-wrap">
-      <img src="${listing.images[0]}" alt="${listing.title}" loading="lazy" />
+      <img src="${imgSrc}" alt="${listing.title}" loading="lazy" />
       ${badge}
-      <div class="card-price-tag">PKR ${listing.price_label || formatPKR(listing.price)}</div>
+      <div class="card-price-tag">${totalPriceFmt}</div>
     </div>
     <div class="card-body">
       <div class="card-location">
@@ -465,7 +556,12 @@ function buildPropertyCard(listing) {
         ${listing.society}, ${listing.city}
       </div>
       <h3 class="card-title">${listing.title}</h3>
-      <div class="card-features">${features}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px">
+        <span style="background:var(--gold-pale);border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:2px 8px;font-size:.72rem;color:var(--gold);font-weight:600">${typeLabel}</span>
+        <span style="font-size:.78rem;color:var(--text-muted);font-weight:500">${sizeDisplay}</span>
+      </div>
+      ${perUnitFmt}
+      <div class="card-features" style="margin-top:8px">${features}</div>
       <div class="card-footer">
         <button class="btn btn-gold btn-sm" onclick="openInquiry('${listing.id}')">Contact ASK</button>
         <a href="listing.html?id=${listing.id}" class="btn btn-outline-gold btn-sm">View Details</a>

@@ -108,7 +108,6 @@ function renderRecentInquiries() {
   `;
 }
 
-// ===== LISTINGS TABLE =====
 function renderListingsTable() {
   const filterVal = document.getElementById('lFilter')?.value || '';
   let listings = DB.adminGetListings();
@@ -119,24 +118,33 @@ function renderListingsTable() {
   const tbody = document.getElementById('listingsTbody');
 
   if (!listings.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No listings found.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" class="empty-state">No listings found.</td></tr>';
     return;
   }
 
   tbody.innerHTML = listings.map(l => {
     const priv = sellerPrivate.find(p => p.listing_id === l.id) || {};
+    // Resolve size and price (v2 + backward compat)
+    const sizeDisplay  = l.plot_size_value ? `${l.plot_size_value} ${l.plot_size_unit}` : (l.plot_size || '—');
+    const perUnitDisp  = l.price_per_unit ? 'PKR ' + formatPKR(l.price_per_unit) : '—';
+    const totalDisp    = l.total_price ? 'PKR ' + formatPKR(l.total_price) : (l.price_label ? 'PKR ' + l.price_label : '—');
+    const typeDisplay  = l.property_type === 'Other' && l.custom_property_type ? l.custom_property_type : (l.property_type || '—');
     return `
     <tr>
       <td style="font-size:0.72rem;color:var(--text-muted);font-family:monospace">${l.id}</td>
       <td>
         <div style="display:flex;align-items:center;gap:8px">
           <img src="${l.images?.[0] || ''}" class="thumb" alt="" onerror="this.style.display='none'" />
-          <span style="max-width:180px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.title}</span>
+          <span style="max-width:160px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.title}</span>
         </div>
       </td>
+      <td style="font-size:.8rem;white-space:nowrap">${typeDisplay}</td>
+      <td style="white-space:nowrap">${l.plot_size_value || '—'}</td>
+      <td>${l.plot_size_unit || '—'}</td>
+      <td style="white-space:nowrap;font-size:.8rem">${perUnitDisp}</td>
+      <td style="white-space:nowrap;font-size:.8rem;font-weight:600;color:var(--navy)">${totalDisp}</td>
       <td>${l.society}</td>
-      <td>${l.plot_size}</td>
-      <td style="white-space:nowrap">PKR ${l.price_label || l.price?.toLocaleString()}</td>
+      <td style="font-size:.75rem;color:var(--text-muted)">${l.created_at}</td>
       <td>
         <select class="toolbar-filters select" onchange="DB.adminUpdateListingStatus('${l.id}', this.value);renderListingsTable()" style="padding:4px 8px;border-radius:5px;font-size:0.75rem">
           ${['pending','approved','active','sold'].map(s => `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
@@ -155,7 +163,7 @@ function renderListingsTable() {
       <td class="private-cell">
         <div class="private-val">
           <strong>${priv.name || '—'}</strong>
-          <span>${priv.phone || '—'}</span>
+          <span><a href="tel:${priv.phone}" style="color:#3b82f6">${priv.phone || '—'}</a></span>
           <span style="color:var(--text-muted);font-size:.72rem">${priv.email || '—'}</span>
         </div>
       </td>
@@ -255,6 +263,11 @@ function viewListingDetail(id) {
 
   if (!l) return;
 
+  const sizeDisplay = l.plot_size_value ? `${l.plot_size_value} ${l.plot_size_unit}` : (l.plot_size || '—');
+  const totalDisp   = l.total_price ? 'PKR ' + formatPKR(l.total_price) : (l.price_label ? 'PKR ' + l.price_label : '—');
+  const perUnitDisp = l.price_per_unit ? 'PKR ' + formatPKR(l.price_per_unit) + ' / ' + (l.plot_size_unit || 'unit') : '—';
+  const typeDisplay = l.property_type === 'Other' && l.custom_property_type ? l.custom_property_type : (l.property_type || '—');
+
   document.getElementById('adminModalContent').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px">
       <h3 style="font-family:var(--font-heading);color:var(--navy);font-size:1.2rem;max-width:400px">${l.title}</h3>
@@ -262,15 +275,20 @@ function viewListingDetail(id) {
     </div>
     ${l.images?.[0] ? `<img src="${l.images[0]}" style="width:100%;height:200px;object-fit:cover;border-radius:10px;margin-bottom:20px" />` : ''}
     <div class="modal-detail-grid">
-      <div class="detail-item"><label>Property Type</label><value>${l.property_type}</value></div>
-      <div class="detail-item"><label>Plot Size</label><value>${l.plot_size}</value></div>
+      <div class="detail-item"><label>Listing ID</label><value style="font-family:monospace;font-size:.8rem">${l.id}</value></div>
+      <div class="detail-item"><label>Status</label><value><span class="status-badge status-${l.status}">${l.status}</span></value></div>
+      <div class="detail-item"><label>Property Type</label><value>${typeDisplay}</value></div>
       <div class="detail-item"><label>City</label><value>${l.city}</value></div>
       <div class="detail-item"><label>Society</label><value>${l.society}</value></div>
-      <div class="detail-item"><label>Block</label><value>${l.block || '—'}</value></div>
-      <div class="detail-item"><label>Price</label><value>PKR ${l.price_label || l.price?.toLocaleString()}</value></div>
-      <div class="detail-item"><label>Status</label><value><span class="status-badge status-${l.status}">${l.status}</span></value></div>
+      <div class="detail-item"><label>Block / Phase</label><value>${l.block || '—'}</value></div>
+      <div class="detail-item"><label>Plot Size Value</label><value>${l.plot_size_value || '—'}</value></div>
+      <div class="detail-item"><label>Plot Size Unit</label><value>${l.plot_size_unit || '—'}</value></div>
+      <div class="detail-item"><label>Size Display</label><value>${sizeDisplay}</value></div>
+      <div class="detail-item"><label>Price Per Unit</label><value style="color:var(--gold);font-weight:600">${perUnitDisp}</value></div>
+      <div class="detail-item"><label>Total Price</label><value style="color:var(--navy);font-weight:700;font-size:1rem">${totalDisp}</value></div>
       <div class="detail-item"><label>Submitted</label><value>${l.created_at}</value></div>
       <div class="detail-item full"><label>Description</label><value style="white-space:pre-wrap;font-size:.85rem;color:var(--gray-600)">${l.description || '—'}</value></div>
+      ${l.features?.length ? `<div class="detail-item full"><label>Features</label><value>${l.features.join(' • ')}</value></div>` : ''}
     </div>
     <div class="private-section">
       <h4>

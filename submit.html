@@ -76,20 +76,82 @@
               <label>Listing Title *</label>
               <input type="text" id="s_title" placeholder="e.g. 1 Kanal Luxury Plot in DHA Phase 1" />
             </div>
+            <div class="form-group">
+              <label>Property Type *</label>
+              <select id="s_type" onchange="toggleCustomType()">
+                <option value="">Select Type</option>
+                <option>Residential Plot</option>
+                <option>Commercial Plot</option>
+                <option>House</option>
+                <option>Apartment / Flat</option>
+                <option>Farm House</option>
+                <option>Warehouse</option>
+                <option>Factory</option>
+                <option>Agriculture Land</option>
+                <option>Industrial Land</option>
+                <option>Shop</option>
+                <option>Office</option>
+                <option>Plaza / Building</option>
+                <option>File / Booking</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group" id="customTypeWrap" style="display:none">
+              <label>Specify Property Type *</label>
+              <input type="text" id="s_custom_type" placeholder="e.g. Godown, Studio, Showroom..." />
+            </div>
+
+            <!-- Plot Size: Unit + Value -->
             <div class="form-grid-2">
               <div class="form-group">
-                <label>Property Type *</label>
-                <select id="s_type"><option value="">Select Type</option><option>Plot</option><option>House</option><option>Farmhouse</option><option>Commercial</option><option>Apartment</option></select>
+                <label>Plot Size Value *</label>
+                <input type="number" id="s_size_value" placeholder="e.g. 10" min="0" step="any"
+                       oninput="calcPrice('size')" />
               </div>
               <div class="form-group">
-                <label>Plot Size *</label>
-                <select id="s_size"><option value="">Select Size</option><option>3 Marla</option><option>5 Marla</option><option>7 Marla</option><option>10 Marla</option><option>1 Kanal</option><option>2 Kanal</option><option>4 Kanal</option></select>
+                <label>Size Unit *</label>
+                <select id="s_size_unit" onchange="updatePreview()">
+                  <option value="">Select Unit</option>
+                  <option>Marla</option>
+                  <option>Kanal</option>
+                  <option>Square Feet</option>
+                  <option>Square Yards</option>
+                  <option>Acre</option>
+                  <option>Hectare</option>
+                  <option>Other</option>
+                </select>
               </div>
             </div>
-            <div class="form-group">
-              <label>Asking Price (PKR) *</label>
-              <input type="number" id="s_price" placeholder="e.g. 32500000" />
+
+            <!-- Pricing: dual fields -->
+            <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:20px;display:flex;flex-direction:column;gap:14px">
+              <p style="font-size:.8rem;font-weight:600;color:var(--navy);margin:0;text-transform:uppercase;letter-spacing:.5px">Pricing <span style="color:var(--gold);text-transform:none;font-size:.75rem">(bi-directional — enter either field to auto-calculate)</span></p>
+              <div class="form-grid-2">
+                <div class="form-group" style="margin:0">
+                  <label>Price Per Unit (PKR)</label>
+                  <input type="number" id="s_price_per_unit" placeholder="e.g. 2500000" min="0"
+                         oninput="calcPrice('perUnit')" />
+                </div>
+                <div class="form-group" style="margin:0">
+                  <label>Total Property Price (PKR)</label>
+                  <input type="number" id="s_total_price" placeholder="e.g. 25000000" min="0"
+                         oninput="calcPrice('total')" />
+                </div>
+              </div>
+              <!-- Live preview -->
+              <div id="pricePreview" style="display:none;background:var(--navy);border-radius:8px;padding:14px;color:var(--white)">
+                <p style="font-size:.72rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Pricing Summary</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:.82rem">
+                  <div><span style="color:rgba(255,255,255,.5);display:block;margin-bottom:2px">Plot Size</span><strong id="prev_size">—</strong></div>
+                  <div><span style="color:rgba(255,255,255,.5);display:block;margin-bottom:2px">Per Unit</span><strong id="prev_per_unit" style="color:#e5c570">—</strong></div>
+                  <div><span style="color:rgba(255,255,255,.5);display:block;margin-bottom:2px">Total Price</span><strong id="prev_total" style="color:#e5c570">—</strong></div>
+                </div>
+              </div>
+              <p id="priceConflict" style="display:none;color:var(--error);font-size:.8rem;font-weight:600">
+                ⚠ Both price fields entered — values don't match the plot size. Please correct one.
+              </p>
             </div>
+
             <div class="form-group">
               <label>Description</label>
               <textarea id="s_desc" rows="4" placeholder="Describe your property — features, condition, access, utilities, etc."></textarea>
@@ -210,8 +272,31 @@
             <div class="form-group"><label>Preferred Society</label><select id="b_society"><option value="">Any Society</option><option>DHA</option><option>Royal Orchard</option><option>Buch Villas</option><option>WAPDA Town</option></select></div>
           </div>
           <div class="form-grid-2">
-            <div class="form-group"><label>Property Type *</label><select id="b_type"><option value="">Select Type</option><option>Plot</option><option>House</option><option>Farmhouse</option><option>Commercial</option></select></div>
-            <div class="form-group"><label>Plot Size *</label><select id="b_size"><option value="">Select Size</option><option value="5 Marla">5 Marla</option><option value="10 Marla">10 Marla</option><option value="1 Kanal">1 Kanal</option><option value="2 Kanal">2 Kanal</option></select></div>
+            <div class="form-group">
+              <label>Property Type *</label>
+              <select id="b_type">
+                <option value="">Select Type</option>
+                <option>Residential Plot</option><option>Commercial Plot</option><option>House</option>
+                <option>Apartment / Flat</option><option>Farm House</option><option>Warehouse</option>
+                <option>Factory</option><option>Agriculture Land</option><option>Industrial Land</option>
+                <option>Shop</option><option>Office</option><option>Plaza / Building</option>
+                <option>File / Booking</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-group" style="display:flex;gap:8px;align-items:flex-end">
+              <div style="flex:1">
+                <label>Size Value *</label>
+                <input type="number" id="b_size_value" placeholder="e.g. 10" min="0" step="any" />
+              </div>
+              <div style="flex:1">
+                <label>Unit *</label>
+                <select id="b_size_unit">
+                  <option value="">Unit</option>
+                  <option>Marla</option><option>Kanal</option><option>Square Feet</option>
+                  <option>Square Yards</option><option>Acre</option><option>Hectare</option><option>Other</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div class="form-grid-2">
             <div class="form-group"><label>Min Budget (PKR)</label><input type="number" id="b_budgetMin" placeholder="e.g. 10000000" /></div>
