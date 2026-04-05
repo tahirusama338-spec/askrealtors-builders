@@ -95,7 +95,9 @@
           <option value="pending">Pending</option>
           <option value="approved">Approved</option>
           <option value="active">Active</option>
+          <option value="featured">Featured</option>
           <option value="sold">Sold</option>
+          <option value="rejected">Rejected</option>
         </select>
       </div>
     </div>
@@ -116,6 +118,14 @@
   <section class="admin-section" id="sec-buyers">
     <div class="section-toolbar">
       <h2>Buyer Requirements <span class="count-badge" id="buyersCount">0</span></h2>
+      <div class="toolbar-filters">
+        <select id="bFilter" onchange="renderBuyersTable()">
+          <option value="">All Status</option>
+          <option value="open">Open</option>
+          <option value="approved">Approved</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
     </div>
     <div class="admin-table-wrap">
       <table class="admin-table" id="buyersTable">

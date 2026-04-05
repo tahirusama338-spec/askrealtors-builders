@@ -202,13 +202,21 @@ h1, h2, h3, h4, h5 {
   z-index: 1000;
   height: var(--nav-height);
   transition: var(--transition);
-  background: transparent;
+  /* Always visible: semi-transparent navy as default so text is readable on any background */
+  background: rgba(10, 22, 40, 0.92);
+  backdrop-filter: blur(10px);
 }
 
 .navbar.scrolled {
   background: rgba(10, 22, 40, 0.97);
   backdrop-filter: blur(20px);
   box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+
+/* Hero pages: slightly more transparent at top, transitions to solid on scroll */
+.navbar.hero-top {
+  background: rgba(10, 22, 40, 0.5);
+  backdrop-filter: blur(4px);
 }
 
 .nav-container {
@@ -407,6 +415,7 @@ h1, h2, h3, h4, h5 {
   font-family: var(--font-heading);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -723,6 +732,54 @@ h1, h2, h3, h4, h5 {
 
 /* --- Section CTA --- */
 .section-cta { text-align: center; margin-top: 48px; }
+
+/* --- Buyer Cards (used on listings page and homepage) --- */
+.buyer-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.buyer-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(201,168,76,0.45);
+  transform: translateY(-4px);
+}
+.buyer-card-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.buyer-card-specs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.buyer-spec {
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: var(--gold-light);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.buyer-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.buyer-card-date {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+}
 
 /* --- Utility --- */
 .privacy-shield {

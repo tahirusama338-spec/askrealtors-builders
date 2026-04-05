@@ -15,11 +15,19 @@ function initNavbar() {
   const toggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
 
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
-  // Trigger on load
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  // Only apply hero-top glass effect on the homepage (where a .hero section exists)
+  const hasHero = !!document.querySelector('.hero');
+
+  function updateNavState() {
+    const scrolled = window.scrollY > 40;
+    navbar.classList.toggle('scrolled', scrolled);
+    if (hasHero) {
+      navbar.classList.toggle('hero-top', !scrolled);
+    }
+  }
+
+  window.addEventListener('scroll', updateNavState, { passive: true });
+  updateNavState(); // Trigger on load
 
   if (toggle && navLinks) {
     toggle.addEventListener('click', () => {

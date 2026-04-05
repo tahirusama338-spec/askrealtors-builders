@@ -42,11 +42,11 @@ function renderAnalytics() {
   const inquiries = DB.adminGetInquiries();
 
   const totalListings = listings.length;
-  const activeListings = listings.filter(l => l.status === 'active').length;
+  const activeListings = listings.filter(l => l.status === 'active' || l.status === 'approved').length;
   const pendingListings = listings.filter(l => l.status === 'pending').length;
   const exclusiveListings = listings.filter(l => l.is_exclusive).length;
   const soldListings = listings.filter(l => l.status === 'sold').length;
-  const totalBuyers = buyers.filter(b => b.status === 'open').length;
+  const totalBuyers = buyers.filter(b => b.status === 'open' || b.status === 'approved').length;
   const totalInquiries = inquiries.length;
   const newInquiries = inquiries.filter(i => i.status === 'new').length;
 
@@ -147,7 +147,7 @@ function renderListingsTable() {
       <td style="font-size:.75rem;color:var(--text-muted)">${l.created_at}</td>
       <td>
         <select class="toolbar-filters select" onchange="DB.adminUpdateListingStatus('${l.id}', this.value);renderListingsTable()" style="padding:4px 8px;border-radius:5px;font-size:0.75rem">
-          ${['pending','approved','active','sold'].map(s => `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
+          ${['pending','approved','active','featured','sold','rejected'].map(s => `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
         </select>
       </td>
       <td>
@@ -179,8 +179,10 @@ function renderListingsTable() {
 
 // ===== BUYERS TABLE =====
 function renderBuyersTable() {
-  const buyers = DB.adminGetBuyers();
+  const filterVal = document.getElementById('bFilter')?.value || '';
+  let buyers = DB.adminGetBuyers();
   const buyerPrivate = DB.adminGetBuyerPrivate();
+  if (filterVal) buyers = buyers.filter(b => b.status === filterVal);
   document.getElementById('buyersCount').textContent = buyers.length;
   const tbody = document.getElementById('buyersTbody');
 
@@ -200,7 +202,7 @@ function renderBuyersTable() {
       <td style="white-space:nowrap">PKR ${b.budget_label || b.budget_max?.toLocaleString()}</td>
       <td>
         <select onchange="DB.adminUpdateBuyerStatus('${b.id}', this.value);renderBuyersTable()" style="padding:4px 8px;border-radius:5px;font-size:.75rem">
-          ${['open','closed'].map(s => `<option value="${s}" ${b.status===s?'selected':''}>${s}</option>`).join('')}
+          ${['open','approved','closed'].map(s => `<option value="${s}" ${b.status===s?'selected':''}>${s}</option>`).join('')}
         </select>
       </td>
       <td class="private-cell">

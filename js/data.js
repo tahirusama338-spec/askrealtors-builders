@@ -7,7 +7,7 @@
  *   price_per_unit, total_price, custom_property_type
  */
 
-const DB_VERSION = '2'; // bump to force reseed on schema change
+const DB_VERSION = '3'; // bump to force reseed on schema change
 
 // ============================================================
 // SEED DATA — Sample listings, buyers, inquiries
@@ -314,7 +314,7 @@ const DB = {
   // --- PUBLIC APIs (no contact info) ---
   getListings(filters = {}) {
     let data = JSON.parse(localStorage.getItem(this.KEY_LISTINGS) || '[]');
-    data = data.filter(l => l.status === 'active' || l.status === 'approved');
+    data = data.filter(l => l.status === 'active' || l.status === 'approved' || l.status === 'featured');
     if (filters.city) data = data.filter(l => l.city === filters.city);
     if (filters.society) data = data.filter(l => l.society === filters.society);
     if (filters.plot_size) data = data.filter(l => l.plot_size === filters.plot_size);
@@ -331,7 +331,7 @@ const DB = {
 
   getBuyerRequirements(filters = {}) {
     let data = JSON.parse(localStorage.getItem(this.KEY_BUYERS) || '[]');
-    data = data.filter(b => b.status === 'open');
+    data = data.filter(b => b.status === 'open' || b.status === 'approved');
     if (filters.city) data = data.filter(b => b.city === filters.city);
     if (filters.society) data = data.filter(b => b.society === filters.society);
     return data;
@@ -380,7 +380,7 @@ const DB = {
       videos:               publicData.videos || [],
       is_exclusive:         false,
       is_featured:          false,
-      status:               'pending',
+      status:               'approved',
       created_at:           new Date().toISOString().split('T')[0],
     };
     listings.push(listing);
@@ -543,10 +543,13 @@ function buildPropertyCard(listing) {
     ? listing.images[0]
     : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
 
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
+
   return `
   <div class="property-card" data-id="${listing.id}">
     <div class="card-img-wrap">
-      <img src="${imgSrc}" alt="${listing.title}" loading="lazy" />
+      <img src="${imgSrc}" alt="${listing.title}" loading="lazy"
+        onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" />
       ${badge}
       <div class="card-price-tag">${totalPriceFmt}</div>
     </div>
