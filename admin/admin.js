@@ -118,24 +118,34 @@ function renderListingsTable() {
   const tbody = document.getElementById('listingsTbody');
 
   if (!listings.length) {
-    tbody.innerHTML = '<tr><td colspan="12" class="empty-state">No listings found.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="15" class="empty-state">No listings found.</td></tr>';
     return;
   }
 
   tbody.innerHTML = listings.map(l => {
     const priv = sellerPrivate.find(p => p.listing_id === l.id) || {};
-    // Resolve size and price (v2 + backward compat)
-    const sizeDisplay  = l.plot_size_value ? `${l.plot_size_value} ${l.plot_size_unit}` : (l.plot_size || '—');
-    const perUnitDisp  = l.price_per_unit ? 'PKR ' + formatPKR(l.price_per_unit) : '—';
-    const totalDisp    = l.total_price ? 'PKR ' + formatPKR(l.total_price) : (l.price_label ? 'PKR ' + l.price_label : '—');
-    const typeDisplay  = l.property_type === 'Other' && l.custom_property_type ? l.custom_property_type : (l.property_type || '—');
+    const sizeDisplay = l.plot_size_value ? `${l.plot_size_value} ${l.plot_size_unit}` : (l.plot_size || '—');
+    const perUnitDisp = l.price_per_unit ? 'PKR ' + formatPKR(l.price_per_unit) : '—';
+    const totalDisp   = l.total_price ? 'PKR ' + formatPKR(l.total_price) : (l.price_label ? 'PKR ' + l.price_label : '—');
+    const typeDisplay = (l.property_type === 'Other' && l.custom_property_type) ? l.custom_property_type : (l.property_type || '—');
+    const cityDisplay    = l.custom_city    || l.city    || '—';
+    const societyDisplay = l.custom_society || l.society || '—';
+    const mps = l.media_processing_status || {};
+    const mediaStatus = (mps.images_processed > 0)
+      ? `<span style="color:var(--success);font-size:.72rem;font-weight:600">✓ ${mps.images_processed} img${mps.video_processed ? ' + vid' : ''}</span>`
+      : (l.images && l.images.length)
+      ? `<span style="color:var(--text-muted);font-size:.72rem">${l.images.length} raw</span>`
+      : '<span style="color:var(--gray-400);font-size:.72rem">No media</span>';
+    const thumbSrc = (l.thumbnails && l.thumbnails[0]) || (l.images && l.images[0]) || '';
+    const features = (l.key_features || l.features || []).slice(0, 3);
+    const featureTags = features.map(f => `<span style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:1px 5px;font-size:.68rem;color:var(--gold);white-space:nowrap">${f}</span>`).join(' ');
     return `
     <tr>
       <td style="font-size:0.72rem;color:var(--text-muted);font-family:monospace">${l.id}</td>
       <td>
         <div style="display:flex;align-items:center;gap:8px">
-          <img src="${l.images?.[0] || ''}" class="thumb" alt="" onerror="this.style.display='none'" />
-          <span style="max-width:160px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.title}</span>
+          ${thumbSrc ? `<img src="${thumbSrc}" class="thumb" alt="" onerror="this.style.display='none'" />` : `<div class="thumb" style="background:var(--gray-100);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" fill="none" stroke="var(--gray-400)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 16M14 8h.01"/></svg></div>`}
+          <span style="max-width:160px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600">${l.title}</span>
         </div>
       </td>
       <td style="font-size:.8rem;white-space:nowrap">${typeDisplay}</td>
@@ -143,28 +153,26 @@ function renderListingsTable() {
       <td>${l.plot_size_unit || '—'}</td>
       <td style="white-space:nowrap;font-size:.8rem">${perUnitDisp}</td>
       <td style="white-space:nowrap;font-size:.8rem;font-weight:600;color:var(--navy)">${totalDisp}</td>
-      <td>${l.society}</td>
+      <td style="font-size:.8rem">${cityDisplay}</td>
+      <td style="font-size:.8rem">${societyDisplay}</td>
+      <td style="font-size:.78rem;color:var(--text-muted)">${l.block || '—'}</td>
+      <td style="font-size:.78rem;color:var(--text-muted)">${l.street || '—'}</td>
+      <td style="max-width:160px">${featureTags || '<span style="color:var(--gray-400);font-size:.72rem">None</span>'}</td>
+      <td>${mediaStatus}</td>
       <td style="font-size:.75rem;color:var(--text-muted)">${l.created_at}</td>
       <td>
         <select class="toolbar-filters select" onchange="DB.adminUpdateListingStatus('${l.id}', this.value);renderListingsTable()" style="padding:4px 8px;border-radius:5px;font-size:0.75rem">
           ${['pending','approved','active','featured','sold','rejected'].map(s => `<option value="${s}" ${l.status===s?'selected':''}>${s}</option>`).join('')}
         </select>
       </td>
-      <td>
-        <span class="toggle-badge ${l.is_featured?'on':'off'}" onclick="DB.adminToggleFeatured('${l.id}');renderListingsTable()">
-          ${l.is_featured?'★ Yes':'No'}
-        </span>
-      </td>
-      <td>
-        <span class="toggle-badge ${l.is_exclusive?'on':'off'}" onclick="DB.adminToggleExclusive('${l.id}');renderListingsTable()">
-          ${l.is_exclusive?'★ Yes':'No'}
-        </span>
-      </td>
+      <td><span class="toggle-badge ${l.is_featured?'on':'off'}" onclick="DB.adminToggleFeatured('${l.id}');renderListingsTable()">${l.is_featured?'★ Yes':'No'}</span></td>
+      <td><span class="toggle-badge ${l.is_exclusive?'on':'off'}" onclick="DB.adminToggleExclusive('${l.id}');renderListingsTable()">${l.is_exclusive?'★ Yes':'No'}</span></td>
       <td class="private-cell">
         <div class="private-val">
           <strong>${priv.name || '—'}</strong>
           <span><a href="tel:${priv.phone}" style="color:#3b82f6">${priv.phone || '—'}</a></span>
           <span style="color:var(--text-muted);font-size:.72rem">${priv.email || '—'}</span>
+          ${priv.notes ? `<span style="color:var(--text-muted);font-size:.68rem;font-style:italic">${priv.notes}</span>` : ''}
         </div>
       </td>
       <td>
@@ -187,19 +195,29 @@ function renderBuyersTable() {
   const tbody = document.getElementById('buyersTbody');
 
   if (!buyers.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No buyer requirements yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13" class="empty-state">No buyer requirements yet.</td></tr>';
     return;
   }
 
   tbody.innerHTML = buyers.map(b => {
     const priv = buyerPrivate.find(p => p.req_id === b.id) || {};
+    const typeLabel = (b.property_type === 'Other' && b.custom_property_type) ? b.custom_property_type : (b.property_type || '—');
+    const cityDisplay    = b.custom_city    || b.city    || '—';
+    const societyDisplay = b.custom_society || b.society || '—';
+    const sizeDisplay    = b.plot_size || (b.plot_size_value ? `${b.plot_size_value} ${b.plot_size_unit}` : '—');
+    const budgetDisplay  = b.budget_label ? 'PKR ' + b.budget_label : (b.budget_max ? 'PKR ' + formatPKR(b.budget_max) : '—');
     return `
     <tr>
       <td style="font-size:.72rem;color:var(--text-muted);font-family:monospace">${b.id}</td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${b.title}</td>
-      <td>${b.society || '—'}</td>
-      <td>${b.plot_size || '—'}</td>
-      <td style="white-space:nowrap">PKR ${b.budget_label || b.budget_max?.toLocaleString()}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600">${b.title}</td>
+      <td style="font-size:.78rem">${typeLabel}</td>
+      <td style="font-size:.78rem">${cityDisplay}</td>
+      <td style="font-size:.78rem">${societyDisplay}</td>
+      <td style="font-size:.78rem;color:var(--text-muted)">${b.block || '—'}</td>
+      <td>${sizeDisplay}</td>
+      <td style="white-space:nowrap;font-size:.8rem;font-weight:600">${budgetDisplay}</td>
+      <td style="max-width:150px;font-size:.78rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${b.notes || '—'}</td>
+      <td style="font-size:.75rem;color:var(--text-muted)">${b.created_at}</td>
       <td>
         <select onchange="DB.adminUpdateBuyerStatus('${b.id}', this.value);renderBuyersTable()" style="padding:4px 8px;border-radius:5px;font-size:.75rem">
           ${['open','approved','closed'].map(s => `<option value="${s}" ${b.status===s?'selected':''}>${s}</option>`).join('')}

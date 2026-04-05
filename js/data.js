@@ -1,13 +1,14 @@
 /**
- * ASK Realtors & Builders — Central Data Store  v2
+ * ASK Realtors & Builders — Central Data Store  v3
  * All private contact info lives in the admin layer only.
  * Public listings contain ZERO seller/buyer contact info.
  *
- * Schema v2 adds: plot_size_value, plot_size_unit,
- *   price_per_unit, total_price, custom_property_type
+ * Schema v3 adds: custom_city, custom_society, block, street, landmark,
+ *   key_features (array), other_features, thumbnails, video_poster,
+ *   media_processing_status, updated_at
  */
 
-const DB_VERSION = '3'; // bump to force reseed on schema change
+const DB_VERSION = '4'; // bump to force reseed on schema change
 
 // ============================================================
 // SEED DATA — Sample listings, buyers, inquiries
@@ -367,21 +368,57 @@ const DB = {
       price_per_unit:       publicData.price_per_unit || 0,
       price_per_unit_label: publicData.price_per_unit_label || '',
       total_price:          publicData.total_price || 0,
-      price:                publicData.total_price || 0,
-      price_label:          publicData.price_label || '',
-      city:                 publicData.city || '',
-      society:              publicData.society || '',
-      block:                publicData.block || '',
-      description:          publicData.description || '',
-      features:             publicData.features || [],
-      images:               (publicData.images && publicData.images.length)
-                              ? publicData.images
-                              : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'],
-      videos:               publicData.videos || [],
-      is_exclusive:         false,
-      is_featured:          false,
-      status:               'approved',
-      created_at:           new Date().toISOString().split('T')[0],
+      // Core listing info
+      title:                    publicData.title || '',
+      property_type:            publicData.property_type || '',
+      custom_property_type:     publicData.custom_property_type || '',
+
+      // Size
+      plot_size_value:          publicData.plot_size_value || 0,
+      plot_size_unit:           publicData.plot_size_unit || '',
+      custom_plot_unit:         publicData.custom_plot_unit || '',
+      plot_size:                publicData.plot_size || '',
+
+      // Pricing
+      price_per_unit:           publicData.price_per_unit || 0,
+      price_per_unit_label:     publicData.price_per_unit_label || '',
+      total_price:              publicData.total_price || 0,
+      price:                    publicData.total_price || publicData.price || 0,
+      price_label:              publicData.price_label || '',
+
+      // Location (full v3)
+      city:                     publicData.city || '',
+      custom_city:              publicData.custom_city || '',
+      society:                  publicData.society || '',
+      custom_society:           publicData.custom_society || '',
+      block:                    publicData.block || '',
+      street:                   publicData.street || '',
+      landmark:                 publicData.landmark || '',
+
+      // Content
+      description:              publicData.description || '',
+      key_features:             publicData.key_features || [],
+      other_features:           publicData.other_features || '',
+      features:                 publicData.features || publicData.key_features || [],
+
+      // Media (optimized versions)
+      images:                   (publicData.images && publicData.images.length)
+                                  ? publicData.images
+                                  : [],
+      thumbnails:               publicData.thumbnails || [],
+      featured_image:           publicData.featured_image || (publicData.thumbnails && publicData.thumbnails[0]) || (publicData.images && publicData.images[0]) || null,
+      videos:                   publicData.videos || [],
+      video_poster:             publicData.video_poster || null,
+
+      // Media processing metadata
+      media_processing_status:  publicData.media_processing_status || { images_processed: 0, video_processed: false },
+
+      // Meta
+      is_exclusive:             false,
+      is_featured:              false,
+      status:                   'approved',
+      created_at:               new Date().toISOString().split('T')[0],
+      updated_at:               new Date().toISOString().split('T')[0],
     };
     listings.push(listing);
     sellerPrivate.push({ listing_id: id, ...privateData });
@@ -398,9 +435,25 @@ const DB = {
     const id = 'B' + Date.now();
     const req = {
       id,
-      ...publicData,
+      title:                publicData.title || '',
+      property_type:        publicData.property_type || '',
+      custom_property_type: publicData.custom_property_type || '',
+      plot_size_value:      publicData.plot_size_value || 0,
+      plot_size_unit:       publicData.plot_size_unit || '',
+      plot_size:            publicData.plot_size || '',
+      budget_min:           publicData.budget_min || 0,
+      budget_max:           publicData.budget_max || 0,
+      budget_label:         publicData.budget_label || '',
+      city:                 publicData.city || '',
+      custom_city:          publicData.custom_city || '',
+      society:              publicData.society || '',
+      custom_society:       publicData.custom_society || '',
+      block:                publicData.block || '',
+      street:               publicData.street || '',
+      notes:                publicData.notes || '',
       status: 'open',
       created_at: new Date().toISOString().split('T')[0],
+      updated_at: new Date().toISOString().split('T')[0],
     };
     buyers.push(req);
     buyerPrivate.push({ req_id: id, ...privateData });
@@ -503,20 +556,31 @@ function relativeDate(dateStr) {
   return Math.floor(diff / 30) + ' months ago';
 }
 
-// Build property card HTML
+// Build property card HTML — v3 schema
 function buildPropertyCard(listing) {
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
+
   const badge = listing.is_exclusive
     ? '<span class="card-badge exclusive">★ Exclusive</span>'
     : listing.is_featured
     ? '<span class="card-badge featured">Featured</span>'
     : '';
 
-  // Resolve size display (v2 or fallback to legacy plot_size string)
+  // Use thumbnail for card (optimized, 4:3), fallback to full image, then fallback URL
+  const imgSrc = (listing.thumbnails && listing.thumbnails[0])
+    ? listing.thumbnails[0]
+    : (listing.featured_image)
+    ? listing.featured_image
+    : (listing.images && listing.images[0])
+    ? listing.images[0]
+    : FALLBACK_IMG;
+
+  // Resolve size display (v3 → v2 → legacy)
   const sizeDisplay = listing.plot_size_value
     ? `${listing.plot_size_value} ${listing.plot_size_unit}`
     : (listing.plot_size || '—');
 
-  // Resolve pricing (v2 or fallback)
+  // Resolve pricing
   const totalPriceFmt = listing.total_price
     ? 'PKR ' + formatPKR(listing.total_price)
     : listing.price_label
@@ -524,26 +588,30 @@ function buildPropertyCard(listing) {
     : listing.price ? 'PKR ' + formatPKR(listing.price) : '—';
 
   const perUnitFmt = listing.price_per_unit
-    ? `<span style="font-size:.72rem;color:var(--text-muted)">PKR ${formatPKR(listing.price_per_unit)} / ${listing.plot_size_unit || 'unit'}</span>`
+    ? `<span style="font-size:.72rem;color:rgba(255,255,255,0.75)">${formatPKR(listing.price_per_unit)} / ${listing.plot_size_unit || 'unit'}</span>`
     : '';
 
-  // Property type display
-  const typeLabel = listing.property_type === 'Other' && listing.custom_property_type
+  // Property type label
+  const typeLabel = (listing.property_type === 'Other' && listing.custom_property_type)
     ? listing.custom_property_type
     : (listing.property_type || '');
 
-  const features = (listing.features || []).slice(0, 3).map(f =>
-    `<span class="card-feature">
-      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-      ${f}
-    </span>`
+  // Location: society + block if available
+  const locationStr = [
+    listing.society || listing.custom_society || '',
+    listing.block ? listing.block : '',
+    listing.city || listing.custom_city || '',
+  ].filter(Boolean).join(', ');
+
+  // Feature tags — up to 4
+  const allFeatures = [
+    ...(listing.key_features || []),
+    ...(listing.features && !listing.key_features ? listing.features : []),
+  ].filter(Boolean);
+
+  const featureTags = allFeatures.slice(0, 4).map(f =>
+    `<span class="feature-tag">${f}</span>`
   ).join('');
-
-  const imgSrc = (listing.images && listing.images[0])
-    ? listing.images[0]
-    : 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
-
-  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80';
 
   return `
   <div class="property-card" data-id="${listing.id}">
@@ -551,39 +619,59 @@ function buildPropertyCard(listing) {
       <img src="${imgSrc}" alt="${listing.title}" loading="lazy"
         onerror="this.onerror=null;this.src='${FALLBACK_IMG}'" />
       ${badge}
-      <div class="card-price-tag">${totalPriceFmt}</div>
+      <div class="card-price-tag">
+        ${totalPriceFmt}
+        ${perUnitFmt ? `<br>${perUnitFmt}` : ''}
+      </div>
     </div>
     <div class="card-body">
       <div class="card-location">
         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        ${listing.society}, ${listing.city}
+        ${locationStr || '—'}
       </div>
       <h3 class="card-title">${listing.title}</h3>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px">
         <span style="background:var(--gold-pale);border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:2px 8px;font-size:.72rem;color:var(--gold);font-weight:600">${typeLabel}</span>
         <span style="font-size:.78rem;color:var(--text-muted);font-weight:500">${sizeDisplay}</span>
       </div>
-      ${perUnitFmt}
-      <div class="card-features" style="margin-top:8px">${features}</div>
+      ${featureTags ? `<div class="features-tags" style="margin-bottom:8px">${featureTags}</div>` : ''}
       <div class="card-footer">
         <button class="btn btn-gold btn-sm" onclick="openInquiry('${listing.id}')">Contact ASK</button>
-        <a href="listing.html?id=${listing.id}" class="btn btn-outline-gold btn-sm">View Details</a>
+        <span style="font-size:.72rem;color:var(--text-muted)">${relativeDate(listing.created_at)}</span>
       </div>
     </div>
   </div>`;
 }
 
-// Build buyer card HTML
+// Build buyer requirement card HTML — v3 schema
 function buildBuyerCard(req) {
+  const typeLabel = (req.property_type === 'Other' && req.custom_property_type)
+    ? req.custom_property_type
+    : (req.property_type || 'Any');
+
+  const locationStr = [
+    req.society || req.custom_society || '',
+    req.city || req.custom_city || '',
+  ].filter(Boolean).join(', ');
+
+  const sizeStr = req.plot_size || (req.plot_size_value ? `${req.plot_size_value} ${req.plot_size_unit}` : '');
+
+  const budgetStr = req.budget_label
+    ? 'PKR ' + req.budget_label
+    : req.budget_max ? 'PKR ' + formatPKR(req.budget_max) : '—';
+
   return `
   <div class="buyer-card" onclick="openInquiry(null, '${req.id}')">
-    <h4 class="buyer-card-title">${req.title}</h4>
-    <div class="buyer-card-specs">
-      <span class="buyer-spec">${req.plot_size}</span>
-      <span class="buyer-spec">${req.property_type}</span>
-      <span class="buyer-spec">PKR ${req.budget_label || formatPKR(req.budget_max)}</span>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <h4 class="buyer-card-title" style="margin:0;flex:1;padding-right:8px">${req.title}</h4>
+      <span style="background:rgba(201,168,76,0.2);color:var(--gold-light);padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:700;white-space:nowrap;flex-shrink:0">${typeLabel}</span>
     </div>
-    ${req.notes ? `<p style="font-size:0.8rem;color:rgba(255,255,255,0.55);margin-bottom:12px;">${req.notes}</p>` : ''}
+    <div class="buyer-card-specs">
+      ${sizeStr ? `<span class="buyer-spec">${sizeStr}</span>` : ''}
+      <span class="buyer-spec">${budgetStr}</span>
+    </div>
+    ${locationStr ? `<div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:10px;display:flex;align-items:center;gap:4px"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>${locationStr}</div>` : ''}
+    ${req.notes ? `<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:12px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${req.notes}</p>` : ''}
     <div class="buyer-card-footer">
       <span class="buyer-card-date">${relativeDate(req.created_at)}</span>
       <button class="btn btn-sm" style="background:var(--gold);color:#fff;font-size:0.75rem;padding:6px 14px;" onclick="event.stopPropagation();openInquiry(null,'${req.id}')">Inquire Now</button>
