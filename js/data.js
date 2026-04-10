@@ -639,6 +639,12 @@ function buildPropertyCard(listing) {
         <button class="btn btn-gold btn-sm" onclick="openInquiry('${listing.id}')">Contact ASK</button>
         <span style="font-size:.72rem;color:var(--text-muted)">${relativeDate(listing.created_at)}</span>
       </div>
+      <div class="card-calc-cta">
+        <a href="https://dev-ask-construction-cost-estimator.pantheonsite.io/ai-construction-estimator-pro/" target="_blank" rel="noopener noreferrer" class="card-calc-link">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/></svg>
+          Estimate Build Cost
+        </a>
+      </div>
     </div>
   </div>`;
 }
