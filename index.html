@@ -99,43 +99,43 @@
         </div>
         <div class="search-field">
           <label>Property Type</label>
-          <select id="searchType">
-            <option value="">All Types</option>
-            <option value="Residential Plot">Residential Plot</option>
-            <option value="Commercial Plot">Commercial Plot</option>
-            <option value="House">House</option>
-            <option value="Apartment / Flat">Apartment / Flat</option>
-            <option value="Farm House">Farm House</option>
-            <option value="Shop">Shop</option>
-            <option value="Office">Office</option>
-            <option value="Plaza / Building">Plaza / Building</option>
-          </select>
+          <input type="text" id="searchType" list="searchTypeList" placeholder="Any Type" />
+          <datalist id="searchTypeList">
+            <option value="Residential Plot">
+            <option value="Commercial Plot">
+            <option value="House">
+            <option value="Apartment / Flat">
+            <option value="Farm House">
+            <option value="Shop">
+            <option value="Office">
+            <option value="Plaza / Building">
+          </datalist>
         </div>
         <div class="search-field">
           <label>Plot Size</label>
-          <select id="searchSize">
-            <option value="">Any Size</option>
-            <option value="3 Marla">3 Marla</option>
-            <option value="5 Marla">5 Marla</option>
-            <option value="7 Marla">7 Marla</option>
-            <option value="10 Marla">10 Marla</option>
-            <option value="1 Kanal">1 Kanal</option>
-            <option value="2 Kanal">2 Kanal</option>
-            <option value="4 Kanal">4 Kanal</option>
-          </select>
+          <input type="text" id="searchSize" list="searchSizeList" placeholder="Any Size" />
+          <datalist id="searchSizeList">
+            <option value="3 Marla">
+            <option value="5 Marla">
+            <option value="7 Marla">
+            <option value="10 Marla">
+            <option value="1 Kanal">
+            <option value="2 Kanal">
+            <option value="4 Kanal">
+          </datalist>
         </div>
         <div class="search-field">
           <label>Budget</label>
-          <select id="searchBudget">
-            <option value="">Any Budget</option>
-            <option value="under-50lac">Under 50 Lakh</option>
-            <option value="under-1cr">Under 1 Crore</option>
-            <option value="1cr-2cr">1 – 2 Crore</option>
-            <option value="1cr-3cr">1 – 3 Crore</option>
-            <option value="3cr-5cr">3 – 5 Crore</option>
-            <option value="5cr-10cr">5 – 10 Crore</option>
-            <option value="above-5cr">Above 5 Crore</option>
-          </select>
+          <input type="text" id="searchBudget" list="searchBudgetList" placeholder="Any Budget" />
+          <datalist id="searchBudgetList">
+            <option value="Under 50 Lakh">
+            <option value="Under 1 Crore">
+            <option value="1 – 2 Crore">
+            <option value="1 – 3 Crore">
+            <option value="3 – 5 Crore">
+            <option value="5 – 10 Crore">
+            <option value="Above 5 Crore">
+          </datalist>
         </div>
         <button class="btn btn-gold search-btn" id="heroSearchBtn" onclick="doSearch()">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>

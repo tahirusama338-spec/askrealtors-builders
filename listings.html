@@ -59,68 +59,68 @@
     <div class="filters-inner">
       <div class="filter-group">
         <label>City</label>
-        <select id="fCity">
-          <option value="">All Cities</option>
-          <option value="Multan">Multan</option>
-          <option value="Lahore">Lahore</option>
-          <option value="Islamabad">Islamabad</option>
-          <option value="Rawalpindi">Rawalpindi</option>
-          <option value="Karachi">Karachi</option>
-          <option value="Faisalabad">Faisalabad</option>
-          <option value="Bahawalpur">Bahawalpur</option>
-        </select>
+        <input type="text" id="fCity" list="fCityList" placeholder="Any City" />
+        <datalist id="fCityList">
+          <option value="Multan">
+          <option value="Lahore">
+          <option value="Islamabad">
+          <option value="Rawalpindi">
+          <option value="Karachi">
+          <option value="Faisalabad">
+          <option value="Bahawalpur">
+        </datalist>
       </div>
       <div class="filter-group">
         <label>Society</label>
-        <select id="fSociety">
-          <option value="">All Societies</option>
-          <option value="DHA">DHA</option>
-          <option value="Bahria Town">Bahria Town</option>
-          <option value="Royal Orchard">Royal Orchard</option>
-          <option value="Buch Villas">Buch Villas</option>
-          <option value="WAPDA Town">WAPDA Town</option>
-          <option value="Cantt">Cantt</option>
-          <option value="Model Town">Model Town</option>
-          <option value="Gulberg">Gulberg</option>
-          <option value="Garden Town">Garden Town</option>
-          <option value="Johar Town">Johar Town</option>
-          <option value="Sadiq Garden">Sadiq Garden</option>
-          <option value="Al Noor Town">Al Noor Town</option>
-        </select>
+        <input type="text" id="fSociety" list="fSocietyList" placeholder="Any Society" />
+        <datalist id="fSocietyList">
+          <option value="DHA">
+          <option value="Bahria Town">
+          <option value="Royal Orchard">
+          <option value="Buch Villas">
+          <option value="WAPDA Town">
+          <option value="Cantt">
+          <option value="Model Town">
+          <option value="Gulberg">
+          <option value="Garden Town">
+          <option value="Johar Town">
+          <option value="Sadiq Garden">
+          <option value="Al Noor Town">
+        </datalist>
       </div>
       <div class="filter-group">
         <label>Property Type</label>
-        <select id="fType">
-          <option value="">All Types</option>
-          <option value="Residential Plot">Residential Plot</option>
-          <option value="Commercial Plot">Commercial Plot</option>
-          <option value="House">House</option>
-          <option value="Apartment / Flat">Apartment / Flat</option>
-          <option value="Farm House">Farm House</option>
-          <option value="Warehouse">Warehouse</option>
-          <option value="Factory">Factory</option>
-          <option value="Agriculture Land">Agriculture Land</option>
-          <option value="Industrial Land">Industrial Land</option>
-          <option value="Shop">Shop</option>
-          <option value="Office">Office</option>
-          <option value="Plaza / Building">Plaza / Building</option>
-          <option value="File / Booking">File / Booking</option>
-        </select>
+        <input type="text" id="fType" list="fTypeList" placeholder="Any Type" />
+        <datalist id="fTypeList">
+          <option value="Residential Plot">
+          <option value="Commercial Plot">
+          <option value="House">
+          <option value="Apartment / Flat">
+          <option value="Farm House">
+          <option value="Warehouse">
+          <option value="Factory">
+          <option value="Agriculture Land">
+          <option value="Industrial Land">
+          <option value="Shop">
+          <option value="Office">
+          <option value="Plaza / Building">
+          <option value="File / Booking">
+        </datalist>
       </div>
       <div class="filter-group">
         <label>Plot Size</label>
-        <select id="fSize">
-          <option value="">Any Size</option>
-          <option value="3 Marla">3 Marla</option>
-          <option value="5 Marla">5 Marla</option>
-          <option value="7 Marla">7 Marla</option>
-          <option value="10 Marla">10 Marla</option>
-          <option value="12 Marla">12 Marla</option>
-          <option value="1 Kanal">1 Kanal</option>
-          <option value="2 Kanal">2 Kanal</option>
-          <option value="4 Kanal">4 Kanal</option>
-          <option value="8 Kanal">8 Kanal</option>
-        </select>
+        <input type="text" id="fSize" list="fSizeList" placeholder="Any Size" />
+        <datalist id="fSizeList">
+          <option value="3 Marla">
+          <option value="5 Marla">
+          <option value="7 Marla">
+          <option value="10 Marla">
+          <option value="12 Marla">
+          <option value="1 Kanal">
+          <option value="2 Kanal">
+          <option value="4 Kanal">
+          <option value="8 Kanal">
+        </datalist>
       </div>
       <div class="filter-group">
         <label>Sort By</label>
@@ -265,20 +265,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function applyFilters() {
   const filters = {
-    city: document.getElementById('fCity').value,
-    society: document.getElementById('fSociety').value,
-    type: document.getElementById('fType').value,
-    size: document.getElementById('fSize').value,
+    city: document.getElementById('fCity').value.trim(),
+    society: document.getElementById('fSociety').value.trim(),
+    type: document.getElementById('fType').value.trim(),
+    size: document.getElementById('fSize').value.trim(),
     sort: document.getElementById('fSort').value,
   };
 
-  let listings = DB.getListings({
-    city: filters.city || undefined,
-    society: filters.society || undefined,
-  });
+  // Helper for case-insensitive partial match
+  const matches = (val, query) => !query || (val && val.toLowerCase().includes(query.toLowerCase()));
 
-  if (filters.type) listings = listings.filter(l => l.property_type === filters.type);
-  if (filters.size) listings = listings.filter(l => l.plot_size === filters.size);
+  // Pre-filter with DB for standard properties but allow partial match fallback
+  let listings = DB.getListings();
+
+  // Apply custom filtering mapping exactly what user typed
+  listings = listings.filter(l => 
+    matches(l.city, filters.city) &&
+    matches(l.society, filters.society) &&
+    matches(l.property_type, filters.type) &&
+    matches(l.plot_size, filters.size)
+  );
 
   // Use total_price (v2 schema) with fallback to legacy price field
   const priceOf = l => l.total_price || l.price || 0;
