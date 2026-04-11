@@ -66,6 +66,9 @@ function prevStep(from) {
 // ──────────────────────────────────────────────────
 // CONDITIONAL FIELDS
 // ──────────────────────────────────────────────────
+// ──────────────────────────────────────────────────
+// CONDITIONAL FIELDS
+// ──────────────────────────────────────────────────
 function toggleCustomType() {
   const type = document.getElementById('s_type').value;
   const wrap = document.getElementById('customTypeWrap');
@@ -76,31 +79,6 @@ function toggleCustomUnit() {
   const unit = document.getElementById('s_size_unit').value;
   const wrap = document.getElementById('customUnitWrap');
   if (wrap) wrap.style.display = unit === 'Other' ? 'block' : 'none';
-}
-
-function toggleCustomCity() {
-  const city = document.getElementById('s_city').value;
-  const wrap = document.getElementById('customCityWrap');
-  if (wrap) wrap.style.display = city === 'Other' ? 'block' : 'none';
-}
-
-function toggleCustomSociety() {
-  const soc = document.getElementById('s_society').value;
-  const wrap = document.getElementById('customSocietyWrap');
-  if (wrap) wrap.style.display = soc === 'Other' ? 'block' : 'none';
-}
-
-// Buyer form custom toggles
-function toggleBuyerCustomCity() {
-  const city = document.getElementById('b_city').value;
-  const wrap = document.getElementById('bCustomCityWrap');
-  if (wrap) wrap.style.display = city === 'Other' ? 'block' : 'none';
-}
-
-function toggleBuyerCustomSociety() {
-  const soc = document.getElementById('b_society').value;
-  const wrap = document.getElementById('bCustomSocietyWrap');
-  if (wrap) wrap.style.display = soc === 'Other' ? 'block' : 'none';
 }
 
 function toggleBuyerCustomType() {
@@ -492,14 +470,10 @@ function validateStep(step) {
   }
 
   if (step === 2) {
-    const city    = document.getElementById('s_city').value;
-    const society = document.getElementById('s_society').value;
-    if (!city)    return showToast('Please select a city.', 'error'), false;
-    if (city === 'Other' && !document.getElementById('s_custom_city').value.trim())
-                  return showToast('Please enter your city name.', 'error'), false;
-    if (!society) return showToast('Please select a society / project.', 'error'), false;
-    if (society === 'Other' && !document.getElementById('s_custom_society').value.trim())
-                  return showToast('Please enter the society / project name.', 'error'), false;
+    const city    = document.getElementById('s_city').value.trim();
+    const society = document.getElementById('s_society').value.trim();
+    if (!city)    return showToast('Please select or enter a city.', 'error'), false;
+    if (!society) return showToast('Please select or enter a society / project.', 'error'), false;
   }
 
   return true;
@@ -525,13 +499,8 @@ function submitProperty() {
   const resolvedTotal   = total   || (perUnit && sizeVal ? Math.round(perUnit * sizeVal) : 0);
   const resolvedPerUnit = perUnit || (total && sizeVal   ? Math.round(total / sizeVal)   : 0);
 
-  const citySelect     = document.getElementById('s_city').value;
-  const customCity     = citySelect === 'Other' ? document.getElementById('s_custom_city').value.trim() : '';
-  const effectiveCity  = customCity || citySelect;
-
-  const socSelect      = document.getElementById('s_society').value;
-  const customSociety  = socSelect === 'Other' ? document.getElementById('s_custom_society').value.trim() : '';
-  const effectiveSoc   = customSociety || socSelect;
+  const effectiveCity  = document.getElementById('s_city').value.trim();
+  const effectiveSoc   = document.getElementById('s_society').value.trim();
 
   const selectedFeatures = getSelectedFeatures();
   const otherFeatures    = document.getElementById('s_other_features').value.trim();
@@ -561,9 +530,7 @@ function submitProperty() {
 
     // Location
     city:                effectiveCity,
-    custom_city:         customCity,
     society:             effectiveSoc,
-    custom_society:      customSociety,
     block:               document.getElementById('s_block').value.trim(),
     street:              document.getElementById('s_street').value.trim(),
     landmark:            document.getElementById('s_landmark').value.trim(),
@@ -649,9 +616,7 @@ function submitProperty() {
 // ──────────────────────────────────────────────────
 function submitBuyerReq() {
   const title    = document.getElementById('b_title').value.trim();
-  const citySel  = document.getElementById('b_city').value;
-  const customCity = citySel === 'Other' ? document.getElementById('b_custom_city')?.value.trim() : '';
-  const effectiveCity = customCity || citySel;
+  const effectiveCity = document.getElementById('b_city').value.trim();
   const type     = document.getElementById('b_type').value;
   const sizeVal  = parseFloat(document.getElementById('b_size_value')?.value) || 0;
   const sizeUnit = document.getElementById('b_size_unit')?.value || '';
@@ -665,9 +630,7 @@ function submitBuyerReq() {
   if (!sizeUnit)      return showToast('Please select a size unit.', 'error');
   if (!name || !phone) return showToast('Please enter your name and phone number.', 'error');
 
-  const socSel = document.getElementById('b_society').value;
-  const customSociety = socSel === 'Other' ? document.getElementById('b_custom_society')?.value.trim() : '';
-  const effectiveSoc = customSociety || socSel;
+  const effectiveSoc = document.getElementById('b_society').value.trim();
 
   const budgetMax = parseInt(document.getElementById('b_budgetMax').value) || 0;
   const budgetMin = parseInt(document.getElementById('b_budgetMin').value) || 0;
@@ -675,9 +638,7 @@ function submitBuyerReq() {
   const publicData = {
     title,
     city:            effectiveCity,
-    custom_city:     customCity,
     society:         effectiveSoc,
-    custom_society:  customSociety,
     block:           document.getElementById('b_block')?.value.trim() || '',
     street:          document.getElementById('b_street')?.value.trim() || '',
     property_type:   type,

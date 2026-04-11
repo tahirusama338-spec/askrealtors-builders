@@ -72,30 +72,30 @@
       <div class="search-grid">
         <div class="search-field">
           <label>City</label>
-          <select id="searchCity">
-            <option value="">All Cities</option>
-            <option value="Multan">Multan</option>
-            <option value="Lahore">Lahore</option>
-            <option value="Islamabad">Islamabad</option>
-            <option value="Rawalpindi">Rawalpindi</option>
-            <option value="Karachi">Karachi</option>
-            <option value="Faisalabad">Faisalabad</option>
-            <option value="Bahawalpur">Bahawalpur</option>
-          </select>
+          <input type="text" id="searchCity" list="searchCityList" placeholder="Any City" />
+          <datalist id="searchCityList">
+            <option value="Multan">
+            <option value="Lahore">
+            <option value="Islamabad">
+            <option value="Rawalpindi">
+            <option value="Karachi">
+            <option value="Faisalabad">
+            <option value="Bahawalpur">
+          </datalist>
         </div>
         <div class="search-field">
           <label>Society</label>
-          <select id="searchSociety">
-            <option value="">All Societies</option>
-            <option value="DHA">DHA</option>
-            <option value="Bahria Town">Bahria Town</option>
-            <option value="Royal Orchard">Royal Orchard</option>
-            <option value="Buch Villas">Buch Villas</option>
-            <option value="WAPDA Town">WAPDA Town</option>
-            <option value="Cantt">Cantt</option>
-            <option value="Model Town">Model Town</option>
-            <option value="Gulberg">Gulberg</option>
-          </select>
+          <input type="text" id="searchSociety" list="searchSocietyList" placeholder="Any Society" />
+          <datalist id="searchSocietyList">
+            <option value="DHA">
+            <option value="Bahria Town">
+            <option value="Royal Orchard">
+            <option value="Buch Villas">
+            <option value="WAPDA Town">
+            <option value="Cantt">
+            <option value="Model Town">
+            <option value="Gulberg">
+          </datalist>
         </div>
         <div class="search-field">
           <label>Property Type</label>
@@ -513,7 +513,7 @@
 <script>
 // Additional Enter key support for search box on home page
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.search-field select').forEach(el => {
+  document.querySelectorAll('.search-field input, .search-field select').forEach(el => {
     el.addEventListener('change', () => {
       // Briefly animate the search button to indicate ready to search
       const btn = document.getElementById('heroSearchBtn');
@@ -522,6 +522,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => btn.classList.remove('pulse-once'), 600);
       }
     });
+    
+    // Also trigger search immediately on pressing Enter in text inputs
+    if(el.tagName.toLowerCase() === 'input') {
+      el.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          doSearch();
+        }
+      });
+    }
   });
 });
 </script>

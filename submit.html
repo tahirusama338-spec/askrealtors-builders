@@ -201,49 +201,39 @@
             <!-- City -->
             <div class="form-group">
               <label>City *</label>
-              <select id="s_city" onchange="toggleCustomCity()">
-                <option value="">Select City</option>
-                <option>Multan</option>
-                <option>Lahore</option>
-                <option>Islamabad</option>
-                <option>Rawalpindi</option>
-                <option>Karachi</option>
-                <option>Faisalabad</option>
-                <option>Gujranwala</option>
-                <option>Sialkot</option>
-                <option>Bahawalpur</option>
-                <option>Rahim Yar Khan</option>
-                <option value="Other">Other / Enter City</option>
-              </select>
-            </div>
-            <div class="form-group" id="customCityWrap" style="display:none">
-              <label>Enter City Name *</label>
-              <input type="text" id="s_custom_city" placeholder="Type your city name..." />
+              <input type="text" id="s_city" list="s_city_list" placeholder="Select or type city name..." />
+              <datalist id="s_city_list">
+                <option value="Multan">
+                <option value="Lahore">
+                <option value="Islamabad">
+                <option value="Rawalpindi">
+                <option value="Karachi">
+                <option value="Faisalabad">
+                <option value="Gujranwala">
+                <option value="Sialkot">
+                <option value="Bahawalpur">
+                <option value="Rahim Yar Khan">
+              </datalist>
             </div>
 
             <!-- Society -->
             <div class="form-group">
               <label>Society / Project *</label>
-              <select id="s_society" onchange="toggleCustomSociety()">
-                <option value="">Select Society</option>
-                <option>DHA</option>
-                <option>Bahria Town</option>
-                <option>Royal Orchard</option>
-                <option>Buch Villas</option>
-                <option>WAPDA Town</option>
-                <option>Cantt</option>
-                <option>Model Town</option>
-                <option>Gulberg</option>
-                <option>Garden Town</option>
-                <option>Johar Town</option>
-                <option>Sadiq Garden</option>
-                <option>Al Noor Town</option>
-                <option value="Other">Other / Enter Society</option>
-              </select>
-            </div>
-            <div class="form-group" id="customSocietyWrap" style="display:none">
-              <label>Enter Society / Project Name *</label>
-              <input type="text" id="s_custom_society" placeholder="Type the society or colony name..." />
+              <input type="text" id="s_society" list="s_society_list" placeholder="Select or type society name..." />
+              <datalist id="s_society_list">
+                <option value="DHA">
+                <option value="Bahria Town">
+                <option value="Royal Orchard">
+                <option value="Buch Villas">
+                <option value="WAPDA Town">
+                <option value="Cantt">
+                <option value="Model Town">
+                <option value="Gulberg">
+                <option value="Garden Town">
+                <option value="Johar Town">
+                <option value="Sadiq Garden">
+                <option value="Al Noor Town">
+              </datalist>
             </div>
 
             <!-- Structured sub-location -->
@@ -389,32 +379,34 @@
           <!-- City & Society -->
           <div class="form-group">
             <label>City *</label>
-            <select id="b_city" onchange="toggleBuyerCustomCity()">
-              <option value="">Select City</option>
-              <option>Multan</option><option>Lahore</option><option>Islamabad</option>
-              <option>Rawalpindi</option><option>Karachi</option><option>Faisalabad</option>
-              <option>Gujranwala</option><option>Sialkot</option><option>Bahawalpur</option>
-              <option value="Other">Other / Enter City</option>
-            </select>
-          </div>
-          <div class="form-group" id="bCustomCityWrap" style="display:none">
-            <label>Enter City Name</label>
-            <input type="text" id="b_custom_city" placeholder="Type your city..." />
+            <input type="text" id="b_city" list="b_city_list" placeholder="Select or type city name..." />
+            <datalist id="b_city_list">
+              <option value="Multan">
+              <option value="Lahore">
+              <option value="Islamabad">
+              <option value="Rawalpindi">
+              <option value="Karachi">
+              <option value="Faisalabad">
+              <option value="Gujranwala">
+              <option value="Sialkot">
+              <option value="Bahawalpur">
+            </datalist>
           </div>
 
           <div class="form-group">
             <label>Preferred Society</label>
-            <select id="b_society" onchange="toggleBuyerCustomSociety()">
-              <option value="">Any Society</option>
-              <option>DHA</option><option>Bahria Town</option><option>Royal Orchard</option>
-              <option>Buch Villas</option><option>WAPDA Town</option><option>Cantt</option>
-              <option>Model Town</option><option>Gulberg</option><option>Garden Town</option>
-              <option value="Other">Other / Enter Society</option>
-            </select>
-          </div>
-          <div class="form-group" id="bCustomSocietyWrap" style="display:none">
-            <label>Enter Society Name</label>
-            <input type="text" id="b_custom_society" placeholder="Type the society or colony..." />
+            <input type="text" id="b_society" list="b_soc_list" placeholder="Select or type society name..." />
+            <datalist id="b_soc_list">
+              <option value="DHA">
+              <option value="Bahria Town">
+              <option value="Royal Orchard">
+              <option value="Buch Villas">
+              <option value="WAPDA Town">
+              <option value="Cantt">
+              <option value="Model Town">
+              <option value="Gulberg">
+              <option value="Garden Town">
+            </datalist>
           </div>
 
           <!-- Sub-location -->

@@ -3,19 +3,18 @@
 /* --- Hero --- */
 .hero {
   position: relative;
-  height: 100vh;
-  min-height: 700px;
+  min-height: max(100vh, 700px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .hero-slider {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
 .hero-slide {
@@ -174,8 +173,9 @@
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
+.search-field input,
 .search-field select {
-  padding: 12px 36px 12px 14px;
+  padding: 12px 14px;
   border: 1.5px solid var(--gray-200);
   border-radius: var(--radius-sm);
   font-size: 0.88rem;
@@ -183,17 +183,25 @@
   transition: var(--transition);
   outline: none;
   color: var(--text-primary);
-  background: var(--gray-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background: var(--gray-50);
+  width: 100%;
+}
+.search-field select {
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
-  width: 100%;
 }
+.search-field input:focus,
 .search-field select:focus {
   border-color: var(--gold);
   background-color: var(--white);
   box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
 }
+.search-field input:hover,
 .search-field select:hover {
   border-color: rgba(201,168,76,0.5);
 }
