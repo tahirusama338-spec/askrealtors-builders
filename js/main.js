@@ -149,16 +149,18 @@ if (statsSection) {
 
 // --- Search redirect ---
 function doSearch() {
-  const city = document.getElementById('searchCity')?.value || '';
+  const city    = document.getElementById('searchCity')?.value || '';
   const society = document.getElementById('searchSociety')?.value || '';
-  const size = document.getElementById('searchSize')?.value || '';
-  const budget = document.getElementById('searchBudget')?.value || '';
+  const type    = document.getElementById('searchType')?.value || '';
+  const size    = document.getElementById('searchSize')?.value || '';
+  const budget  = document.getElementById('searchBudget')?.value || '';
 
   const params = new URLSearchParams();
-  if (city) params.set('city', city);
+  if (city)    params.set('city', city);
   if (society) params.set('society', society);
-  if (size) params.set('size', size);
-  if (budget) params.set('budget', budget);
+  if (type)    params.set('type', type);
+  if (size)    params.set('size', size);
+  if (budget)  params.set('budget', budget);
 
   window.location.href = 'listings.html' + (params.toString() ? '?' + params.toString() : '');
 }

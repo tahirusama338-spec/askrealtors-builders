@@ -1,23 +1,32 @@
 /* ===== ABOUT PAGE CSS ===== */
 
 .about-hero {
-  height: 400px;
+  height: 440px;
   position: relative;
   display: flex;
   align-items: center;
   margin-top: var(--nav-height);
-  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-mid) 60%, var(--navy-light) 100%);
   overflow: hidden;
+}
+
+.about-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.1) 0%, transparent 60%);
+  z-index: 0;
 }
 
 .about-hero::after {
   content: '';
   position: absolute;
-  right: -100px;
-  top: -100px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  right: -80px;
+  top: -80px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  z-index: 0;
 }
 
 .about-hero-overlay {
@@ -26,16 +35,23 @@
   background-image: url('https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=60');
   background-size: cover;
   background-position: center;
-  opacity: 0.1;
+  opacity: 0.08;
+  z-index: 0;
 }
 
 .about-hero-content {
   position: relative;
   z-index: 1;
 }
-.about-hero-content .section-badge { margin-bottom: 12px; }
-.about-hero-content h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); color: var(--white); margin-bottom: 12px; }
-.about-hero-content p { color: rgba(255,255,255,0.7); font-size: 1.05rem; }
+.about-hero-content .section-badge { margin-bottom: 16px; }
+.about-hero-content h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: var(--white);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.about-hero-content p { color: rgba(255,255,255,0.72); font-size: 1.05rem; max-width: 560px; line-height: 1.75; }
 
 /* Story Section */
 .about-story-section { background: var(--white); }
@@ -154,8 +170,7 @@
   letter-spacing: 0.5px;
 }
 
-/* Why Section */
-.why-section { background: var(--off-white); }
+.why-section { background: linear-gradient(180deg, var(--off-white) 0%, var(--white) 100%); }
 
 .why-grid {
   display: grid;
@@ -167,10 +182,22 @@
   background: var(--white);
   border: 1px solid var(--gray-100);
   border-radius: var(--radius-lg);
-  padding: 32px 28px;
+  padding: 36px 28px;
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: var(--transition);
 }
 .why-card::after {
   content: '';
@@ -183,13 +210,15 @@
   transform: scaleX(0);
   transition: var(--transition);
 }
-.why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.why-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.1), 0 4px 12px rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.2); }
 .why-card:hover::after { transform: scaleX(1); }
+.why-card:hover::before { opacity: 1; }
 
 .why-icon {
-  width: 60px;
-  height: 60px;
-  background: var(--gold-pale);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+  border: 1.5px solid rgba(201,168,76,0.25);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -201,12 +230,13 @@
 .why-card h3 {
   font-size: 1.05rem;
   margin-bottom: 10px;
+  color: var(--navy);
 }
 
 .why-card p {
   font-size: 0.88rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* Trust Section */

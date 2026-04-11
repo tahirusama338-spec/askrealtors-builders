@@ -59,29 +59,82 @@
     <div class="filters-inner">
       <div class="filter-group">
         <label>City</label>
-        <select id="fCity"><option value="">All Cities</option><option value="Multan">Multan</option><option value="Lahore">Lahore</option></select>
+        <select id="fCity">
+          <option value="">All Cities</option>
+          <option value="Multan">Multan</option>
+          <option value="Lahore">Lahore</option>
+          <option value="Islamabad">Islamabad</option>
+          <option value="Rawalpindi">Rawalpindi</option>
+          <option value="Karachi">Karachi</option>
+          <option value="Faisalabad">Faisalabad</option>
+          <option value="Bahawalpur">Bahawalpur</option>
+        </select>
       </div>
       <div class="filter-group">
         <label>Society</label>
-        <select id="fSociety"><option value="">All Societies</option><option value="DHA">DHA</option><option value="Royal Orchard">Royal Orchard</option><option value="Buch Villas">Buch Villas</option><option value="WAPDA Town">WAPDA Town</option></select>
+        <select id="fSociety">
+          <option value="">All Societies</option>
+          <option value="DHA">DHA</option>
+          <option value="Bahria Town">Bahria Town</option>
+          <option value="Royal Orchard">Royal Orchard</option>
+          <option value="Buch Villas">Buch Villas</option>
+          <option value="WAPDA Town">WAPDA Town</option>
+          <option value="Cantt">Cantt</option>
+          <option value="Model Town">Model Town</option>
+          <option value="Gulberg">Gulberg</option>
+          <option value="Garden Town">Garden Town</option>
+          <option value="Johar Town">Johar Town</option>
+          <option value="Sadiq Garden">Sadiq Garden</option>
+          <option value="Al Noor Town">Al Noor Town</option>
+        </select>
       </div>
       <div class="filter-group">
-        <label>Type</label>
-        <select id="fType"><option value="">All Types</option><option value="Residential Plot">Residential Plot</option><option value="House">House</option><option value="Farm House">Farm House</option><option value="Commercial">Commercial</option><option value="Other">Other</option></select>
+        <label>Property Type</label>
+        <select id="fType">
+          <option value="">All Types</option>
+          <option value="Residential Plot">Residential Plot</option>
+          <option value="Commercial Plot">Commercial Plot</option>
+          <option value="House">House</option>
+          <option value="Apartment / Flat">Apartment / Flat</option>
+          <option value="Farm House">Farm House</option>
+          <option value="Warehouse">Warehouse</option>
+          <option value="Factory">Factory</option>
+          <option value="Agriculture Land">Agriculture Land</option>
+          <option value="Industrial Land">Industrial Land</option>
+          <option value="Shop">Shop</option>
+          <option value="Office">Office</option>
+          <option value="Plaza / Building">Plaza / Building</option>
+          <option value="File / Booking">File / Booking</option>
+        </select>
       </div>
       <div class="filter-group">
         <label>Plot Size</label>
-        <select id="fSize"><option value="">Any Size</option><option value="5 Marla">5 Marla</option><option value="10 Marla">10 Marla</option><option value="1 Kanal">1 Kanal</option><option value="2 Kanal">2 Kanal</option></select>
+        <select id="fSize">
+          <option value="">Any Size</option>
+          <option value="3 Marla">3 Marla</option>
+          <option value="5 Marla">5 Marla</option>
+          <option value="7 Marla">7 Marla</option>
+          <option value="10 Marla">10 Marla</option>
+          <option value="12 Marla">12 Marla</option>
+          <option value="1 Kanal">1 Kanal</option>
+          <option value="2 Kanal">2 Kanal</option>
+          <option value="4 Kanal">4 Kanal</option>
+          <option value="8 Kanal">8 Kanal</option>
+        </select>
       </div>
       <div class="filter-group">
         <label>Sort By</label>
-        <select id="fSort"><option value="newest">Newest First</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option></select>
+        <select id="fSort">
+          <option value="newest">Newest First</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select>
       </div>
-      <button class="btn btn-gold" id="applyFilters" onclick="applyFilters()">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+      <button class="btn btn-gold" id="applyFilters" onclick="applyFilters()" style="white-space:nowrap;flex-shrink:0;align-self:flex-end;">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
         Filter
       </button>
-      <button class="btn btn-outline-gold" id="resetFilters" onclick="resetFilters()">Reset</button>
+      <button class="btn btn-outline-gold" id="resetFilters" onclick="resetFilters()" style="white-space:nowrap;flex-shrink:0;align-self:flex-end;">Reset</button>
     </div>
   </div>
 </section>
@@ -199,9 +252,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Pre-apply URL params
   const params = new URLSearchParams(window.location.search);
+  if (params.get('city'))    document.getElementById('fCity').value    = params.get('city');
   if (params.get('society')) document.getElementById('fSociety').value = params.get('society');
-  if (params.get('city')) document.getElementById('fCity').value = params.get('city');
-  if (params.get('size')) document.getElementById('fSize').value = params.get('size');
+  if (params.get('type'))    document.getElementById('fType').value    = params.get('type');
+  if (params.get('size'))    document.getElementById('fSize').value    = params.get('size');
+  // budget param from home search — map to sort or keep for future price range filter
+  // (currently the listings filter doesn't have a budget dropdown, so budget is handled via price sort)
 
   // Initial render with slight delay (simulate load)
   setTimeout(() => { applyFilters(); renderListingPageBuyers(); }, 300);

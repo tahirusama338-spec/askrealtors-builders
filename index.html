@@ -53,9 +53,9 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-badge">Multan's Premier Real Estate Partner</div>
+    <div class="hero-badge">✦ Multan's Premier Real Estate Partner</div>
     <h1 class="hero-title">Find Your <span class="gold-text">Dream Property</span><br/>With Trusted Experts</h1>
-    <p class="hero-subtitle">Over 6 years of excellence in DHA, Royal Orchard, Buch Villas & WAPDA Town. Your privacy protected. Your investment secured.</p>
+    <p class="hero-subtitle">Over 6 years of excellence in DHA, Royal Orchard, Buch Villas &amp; WAPDA Town.<br/>Your privacy is our promise. Your investment, our responsibility.</p>
     <div class="hero-btns">
       <a href="listings.html" class="btn btn-gold" id="heroBrowse">Browse Properties</a>
       <a href="submit.html" class="btn btn-outline-white" id="heroPost">Post Your Property</a>
@@ -64,12 +64,11 @@
         Estimate Construction Cost
       </a>
     </div>
-    <p class="hero-calc-note">Estimate the cost of building your house, shop, plaza, or commercial project.</p>
+    <p class="hero-calc-note">Get an AI-powered estimate for your house, shop, plaza or commercial project.</p>
   </div>
-  <!-- Search Bar -->
   <div class="hero-search">
     <div class="search-container">
-      <h3 class="search-title">Search Properties</h3>
+      <h3 class="search-title">Find Your Perfect Property</h3>
       <div class="search-grid">
         <div class="search-field">
           <label>City</label>
@@ -78,6 +77,10 @@
             <option value="Multan">Multan</option>
             <option value="Lahore">Lahore</option>
             <option value="Islamabad">Islamabad</option>
+            <option value="Rawalpindi">Rawalpindi</option>
+            <option value="Karachi">Karachi</option>
+            <option value="Faisalabad">Faisalabad</option>
+            <option value="Bahawalpur">Bahawalpur</option>
           </select>
         </div>
         <div class="search-field">
@@ -85,29 +88,52 @@
           <select id="searchSociety">
             <option value="">All Societies</option>
             <option value="DHA">DHA</option>
+            <option value="Bahria Town">Bahria Town</option>
             <option value="Royal Orchard">Royal Orchard</option>
             <option value="Buch Villas">Buch Villas</option>
             <option value="WAPDA Town">WAPDA Town</option>
-            <option value="Other">Other</option>
+            <option value="Cantt">Cantt</option>
+            <option value="Model Town">Model Town</option>
+            <option value="Gulberg">Gulberg</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Property Type</label>
+          <select id="searchType">
+            <option value="">All Types</option>
+            <option value="Residential Plot">Residential Plot</option>
+            <option value="Commercial Plot">Commercial Plot</option>
+            <option value="House">House</option>
+            <option value="Apartment / Flat">Apartment / Flat</option>
+            <option value="Farm House">Farm House</option>
+            <option value="Shop">Shop</option>
+            <option value="Office">Office</option>
+            <option value="Plaza / Building">Plaza / Building</option>
           </select>
         </div>
         <div class="search-field">
           <label>Plot Size</label>
           <select id="searchSize">
             <option value="">Any Size</option>
+            <option value="3 Marla">3 Marla</option>
             <option value="5 Marla">5 Marla</option>
+            <option value="7 Marla">7 Marla</option>
             <option value="10 Marla">10 Marla</option>
             <option value="1 Kanal">1 Kanal</option>
             <option value="2 Kanal">2 Kanal</option>
+            <option value="4 Kanal">4 Kanal</option>
           </select>
         </div>
         <div class="search-field">
           <label>Budget</label>
           <select id="searchBudget">
             <option value="">Any Budget</option>
+            <option value="under-50lac">Under 50 Lakh</option>
             <option value="under-1cr">Under 1 Crore</option>
+            <option value="1cr-2cr">1 – 2 Crore</option>
             <option value="1cr-3cr">1 – 3 Crore</option>
             <option value="3cr-5cr">3 – 5 Crore</option>
+            <option value="5cr-10cr">5 – 10 Crore</option>
             <option value="above-5cr">Above 5 Crore</option>
           </select>
         </div>
@@ -484,5 +510,20 @@
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script src="js/home.js"></script>
+<script>
+// Additional Enter key support for search box on home page
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.search-field select').forEach(el => {
+    el.addEventListener('change', () => {
+      // Briefly animate the search button to indicate ready to search
+      const btn = document.getElementById('heroSearchBtn');
+      if (btn) {
+        btn.classList.add('pulse-once');
+        setTimeout(() => btn.classList.remove('pulse-once'), 600);
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>
