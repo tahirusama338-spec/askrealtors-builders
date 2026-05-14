@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Construction Cost Calculator | ASK Realtors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/calculator.css">
+</head>
+<body class="calculator-page">
+
+  <nav class="calc-navbar">
+    <a href="index.html" class="calc-logo">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+      ASK Realtors
+    </a>
+    <a href="index.html" class="calc-back">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Website
+    </a>
+  </nav>
+
+  <div class="calc-container">
+    <div class="calc-header">
+      <h1>Construction Cost Calculator</h1>
+      <p>Get a tailored estimate for your project in Multan, built with current market rates.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-grid">
+        <div class="calc-group">
+          <label for="projType">Project Type</label>
+          <select id="projType">
+            <option value="house">House (Residential)</option>
+            <option value="plaza">Plaza / Commercial</option>
+            <option value="shop">Shop</option>
+            <option value="farmhouse">Farmhouse</option>
+          </select>
+        </div>
+
+        <div class="calc-group">
+          <label for="quality">Construction Quality</label>
+          <select id="quality">
+            <option value="economy">Economy (A Grade)</option>
+            <option value="standard">Standard (A+ Grade)</option>
+            <option value="premium">Premium (Luxury)</option>
+            <option value="ultra">Ultra Luxury</option>
+          </select>
+        </div>
+
+        <div class="calc-group">
+          <label for="unit">Area Unit</label>
+          <select id="unit">
+            <option value="marla">Marla (225 sq.ft)</option>
+            <option value="kanal">Kanal (4500 sq.ft)</option>
+            <option value="sqft">Square Feet</option>
+          </select>
+        </div>
+
+        <div class="calc-group">
+          <label for="area">Total Area</label>
+          <input type="number" id="area" placeholder="e.g., 5" min="1">
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calculateCost()">Generate Estimate</button>
+
+      <div class="calc-result" id="resultBox">
+        <div class="result-total">
+          <h2>Estimated Total Cost</h2>
+          <div class="amount" id="totalCost">PKR 0</div>
+          <p style="color: var(--calc-muted); margin-top: 10px; font-size: 0.9rem;">
+            Estimated Area: <span id="resSqft">0</span> Sq.Ft | Rate: PKR <span id="resRate">0</span> / Sq.Ft
+          </p>
+        </div>
+
+        <div class="result-breakdown">
+          <h3 style="color: var(--calc-gold); margin-bottom: 15px; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Cost Breakdown</h3>
+          <div class="breakdown-item">
+            <span class="label">Grey Structure (Foundation, Brickwork, Roof)</span>
+            <span class="value" id="brkGrey">PKR 0</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Finishing (Tiles, Paint, Woodwork)</span>
+            <span class="value" id="brkFinish">PKR 0</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Plumbing & Electrical (Pipes, Wiring, Fittings)</span>
+            <span class="value" id="brkMEP">PKR 0</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+          <a href="https://wa.me/923029564972?text=I%20used%20your%20cost%20calculator.%20I%20want%20to%20discuss%20my%20construction%20project." target="_blank" class="calc-btn" style="display: inline-block; width: auto; background: linear-gradient(135deg, #25D366, #128C7E); padding: 12px 24px; text-decoration: none; font-size: 1rem;">
+            Discuss on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateCost() {
+      const type = document.getElementById('projType').value;
+      const quality = document.getElementById('quality').value;
+      const unit = document.getElementById('unit').value;
+      const areaInput = parseFloat(document.getElementById('area').value);
+
+      if (isNaN(areaInput) || areaInput <= 0) {
+        alert("Please enter a valid area.");
+        return;
+      }
+
+      // Convert area to sqft (Multan standard: 1 Marla = 225 sqft, 1 Kanal = 20 Marla = 4500 sqft)
+      let sqft = 0;
+      if (unit === 'marla') sqft = areaInput * 225;
+      else if (unit === 'kanal') sqft = areaInput * 4500;
+      else sqft = areaInput;
+
+      // Double the sqft for multi-story (assuming standard 2-story for house, but let's keep it single story covered area for simplicity, user enters covered area)
+      // Usually users enter plot size, so covered area is approx 80% per floor * 2 floors = 1.6 * plot size
+      // We will assume 'area' input is the total covered area intended to build.
+
+      // Define rates per sqft based on quality
+      // Rates are approximate PKR for 2024
+      const rates = {
+        economy: 3800,
+        standard: 4800,
+        premium: 6500,
+        ultra: 8500
+      };
+
+      // Type multipliers (commercial is slightly more expensive due to height/structure)
+      let multiplier = 1.0;
+      if (type === 'plaza') multiplier = 1.2;
+      if (type === 'shop') multiplier = 1.1;
+      if (type === 'farmhouse') multiplier = 1.15;
+
+      const ratePerSqft = rates[quality] * multiplier;
+      const totalCost = sqft * ratePerSqft;
+
+      // Breakdown percentages
+      const pctGrey = 0.55; // 55%
+      const pctFinish = 0.30; // 30%
+      const pctMEP = 0.15; // 15%
+
+      // Format currency
+      const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 }).format(amount);
+      };
+
+      // Update UI
+      document.getElementById('totalCost').innerText = formatCurrency(totalCost);
+      document.getElementById('resSqft').innerText = sqft.toLocaleString();
+      document.getElementById('resRate').innerText = ratePerSqft.toLocaleString();
+      
+      document.getElementById('brkGrey').innerText = formatCurrency(totalCost * pctGrey);
+      document.getElementById('brkFinish').innerText = formatCurrency(totalCost * pctFinish);
+      document.getElementById('brkMEP').innerText = formatCurrency(totalCost * pctMEP);
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.classList.remove('active');
+      void resultBox.offsetWidth; // trigger reflow
+      resultBox.classList.add('active');
+      
+      // Scroll to result
+      setTimeout(() => {
+        resultBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 100);
+    }
+  </script>
+</body>
+</html>
