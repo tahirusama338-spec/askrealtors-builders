@@ -238,7 +238,7 @@
 /* --- Exclusive Teaser --- */
 .exclusive-teaser {
   padding: 80px 0;
-  background: var(--off-white);
+  background: var(--navy-mid);
 }
 
 .exclusive-content {
@@ -268,10 +268,11 @@
 .exclusive-text h2 {
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   margin-bottom: 16px;
+  color: var(--white);
 }
 
 .exclusive-text p {
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.7);
   font-size: 1rem;
   line-height: 1.7;
   margin-bottom: 28px;
@@ -416,8 +417,8 @@
 }
 
 .step-card {
-  background: var(--white);
-  border: 1px solid var(--gray-100);
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.05);
   border-radius: var(--radius-lg);
   padding: 32px 24px;
   text-align: center;
@@ -457,17 +458,18 @@
   font-size: 1rem;
   margin-bottom: 10px;
   font-family: var(--font-heading);
+  color: var(--white);
 }
 
 .step-card p {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.7);
   line-height: 1.6;
 }
 
 /* --- Societies --- */
 .societies-section {
-  background: var(--off-white);
+  background: var(--navy-mid);
   padding: 80px 0;
 }
 
@@ -532,8 +534,8 @@
 }
 
 .testimonial-card {
-  background: var(--white);
-  border: 1px solid var(--gray-100);
+  background: var(--navy-light);
+  border: 1px solid rgba(255,255,255,0.05);
   border-radius: var(--radius-lg);
   padding: 32px;
   box-shadow: var(--shadow-sm);
@@ -561,7 +563,7 @@
 .stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 16px; letter-spacing: 2px; }
 
 .testimonial-card p {
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.75);
   font-size: 0.9rem;
   line-height: 1.7;
   margin-bottom: 20px;
@@ -586,8 +588,8 @@
   color: var(--white);
   flex-shrink: 0;
 }
-.testimonial-author strong { display: block; font-size: 0.9rem; color: var(--navy); }
-.testimonial-author span { display: block; font-size: 0.78rem; color: var(--text-muted); }
+.testimonial-author strong { display: block; font-size: 0.9rem; color: var(--white); }
+.testimonial-author span { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.5); }
 .featured-testimonial .testimonial-author strong { color: var(--white); }
 
 /* --- CTA Banner --- */
