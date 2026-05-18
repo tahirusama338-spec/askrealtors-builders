@@ -6,10 +6,10 @@
 /* --- CSS Variables / Design Tokens --- */
 :root {
   /* Corporate Luxury Palette */
-  --navy: #0A1118;         /* Deep charcoal / almost black */
-  --navy-dark: #05080C;
-  --navy-mid: #152230;
-  --navy-light: #203348;
+  --navy: #030609;         /* OLED Black / Deepest Charcoal */
+  --navy-dark: #000000;
+  --navy-mid: #0a1016;
+  --navy-light: #121c26;
   
   --gold: #B8975E;         /* Muted, elegant brass/champagne */
   --gold-light: #C9AB73;
@@ -46,9 +46,9 @@
   /* Elegant, subtle shadows */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
-  --shadow-gold: 0 4px 16px rgba(184, 151, 94, 0.2);
-  --shadow-navy: 0 8px 24px rgba(10, 17, 24, 0.25);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+  --shadow-gold: 0 8px 32px rgba(184, 151, 94, 0.4);
+  --shadow-navy: 0 8px 24px rgba(3, 6, 9, 0.35);
 
   --transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
   --transition-slow: all 0.5s cubic-bezier(0.4,0,0.2,1);
@@ -67,8 +67,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: var(--text-primary);
-  background: var(--white);
+  color: var(--off-white);
+  background: var(--navy-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -90,7 +90,7 @@ input, select, textarea { font-family: inherit; }
 h1, h2, h3, h4, h5 {
   font-family: var(--font-heading);
   line-height: 1.2;
-  color: var(--navy);
+  color: var(--white);
 }
 
 .gold-text { color: var(--gold); }
@@ -358,18 +358,19 @@ h1, h2, h3, h4, h5 {
 }
 
 .property-card {
-  background: var(--white);
+  background: var(--navy-mid);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
-  transition: all 0.32s cubic-bezier(0.4,0,0.2,1);
-  border: 1px solid var(--gray-100);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 1px 4px rgba(0,0,0,0.06);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  border: 1px solid rgba(255,255,255,0.05);
   position: relative;
+  transform: translateY(0);
 }
 .property-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.14), 0 4px 16px rgba(201,168,76,0.08);
-  border-color: rgba(201,168,76,0.2);
+  transform: translateY(-12px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2), 0 12px 32px rgba(201,168,76,0.15);
+  border-color: var(--gold);
 }
 
 .card-img-wrap {
@@ -440,7 +441,7 @@ h1, h2, h3, h4, h5 {
 .card-title {
   font-size: 1.08rem;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--white);
   margin-bottom: 12px;
   font-family: var(--font-heading);
   display: -webkit-box;
@@ -462,9 +463,9 @@ h1, h2, h3, h4, h5 {
   align-items: center;
   gap: 4px;
   font-size: 0.76rem;
-  color: var(--text-secondary);
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
+  color: var(--gray-200);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 4px 10px;
   border-radius: 50px;
   font-weight: 500;

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Construction Cost Calculator | ASK Realtors</title>
+  <title>AI Construction Cost Estimator | ASK Realtors</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/calculator.css">
 </head>
 <body class="calculator-page">
@@ -22,154 +22,447 @@
     </a>
   </nav>
 
-  <div class="calc-container">
-    <div class="calc-header">
-      <h1>Construction Cost Calculator</h1>
-      <p>Get a tailored estimate for your project in Multan, built with current market rates.</p>
+  <!-- Main Premium Interface Container -->
+  <main id="ace-estimator">
+    <div class="ace-wizard-header">
+      <div class="ace-wizard-badge">Pakistan Construction Estimator</div>
+      <h1 class="ace-wizard-title">AI Smart Estimate</h1>
+      <p class="ace-wizard-subtitle">Answer a few questions and get a detailed, AI-powered cost estimate based on current Pakistan market rates. Instantly works offline.</p>
     </div>
 
-    <div class="calc-card">
-      <div class="calc-grid">
-        <div class="calc-group">
-          <label for="projType">Project Type</label>
-          <select id="projType">
-            <option value="house">House (Residential)</option>
-            <option value="plaza">Plaza / Commercial</option>
-            <option value="shop">Shop</option>
-            <option value="farmhouse">Farmhouse</option>
-          </select>
-        </div>
+    <!-- Mode Selector Tabs -->
+    <div class="ace-mode-switcher">
+      <button type="button" class="ace-mode-btn active" id="ace-mode-wizard" onclick="aceApp.setMode('wizard')">
+        <span class="emoji">🧠</span> AI Smart Estimate
+      </button>
+      <button type="button" class="ace-mode-btn" id="ace-mode-builder" onclick="aceApp.setMode('builder')">
+        <span class="emoji">📋</span> Manual Cost Builder
+      </button>
+    </div>
 
-        <div class="calc-group">
-          <label for="quality">Construction Quality</label>
-          <select id="quality">
-            <option value="economy">Economy (A Grade)</option>
-            <option value="standard">Standard (A+ Grade)</option>
-            <option value="premium">Premium (Luxury)</option>
-            <option value="ultra">Ultra Luxury</option>
-          </select>
-        </div>
-
-        <div class="calc-group">
-          <label for="unit">Area Unit</label>
-          <select id="unit">
-            <option value="marla">Marla (225 sq.ft)</option>
-            <option value="kanal">Kanal (4500 sq.ft)</option>
-            <option value="sqft">Square Feet</option>
-          </select>
-        </div>
-
-        <div class="calc-group">
-          <label for="area">Total Area</label>
-          <input type="number" id="area" placeholder="e.g., 5" min="1">
-        </div>
-      </div>
-
-      <button class="calc-btn" onclick="calculateCost()">Generate Estimate</button>
-
-      <div class="calc-result" id="resultBox">
-        <div class="result-total">
-          <h2>Estimated Total Cost</h2>
-          <div class="amount" id="totalCost">PKR 0</div>
-          <p style="color: var(--calc-muted); margin-top: 10px; font-size: 0.9rem;">
-            Estimated Area: <span id="resSqft">0</span> Sq.Ft | Rate: PKR <span id="resRate">0</span> / Sq.Ft
-          </p>
-        </div>
-
-        <div class="result-breakdown">
-          <h3 style="color: var(--calc-gold); margin-bottom: 15px; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;">Cost Breakdown</h3>
-          <div class="breakdown-item">
-            <span class="label">Grey Structure (Foundation, Brickwork, Roof)</span>
-            <span class="value" id="brkGrey">PKR 0</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="label">Finishing (Tiles, Paint, Woodwork)</span>
-            <span class="value" id="brkFinish">PKR 0</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="label">Plumbing & Electrical (Pipes, Wiring, Fittings)</span>
-            <span class="value" id="brkMEP">PKR 0</span>
-          </div>
-        </div>
+    <!-- ── AI WIZARD MODE ── -->
+    <div id="ace-wizard-mode">
+      <div class="ace-wizard-wrap">
         
-        <div style="margin-top: 30px; text-align: center;">
-          <a href="https://wa.me/923029564972?text=I%20used%20your%20cost%20calculator.%20I%20want%20to%20discuss%20my%20construction%20project." target="_blank" class="calc-btn" style="display: inline-block; width: auto; background: linear-gradient(135deg, #25D366, #128C7E); padding: 12px 24px; text-decoration: none; font-size: 1rem;">
-            Discuss on WhatsApp
-          </a>
+        <!-- Step Indicator -->
+        <div class="ace-step-indicator" id="ace-step-indicator">
+          <div class="ace-step-dot active" id="ace-step-dot-1">
+            <div class="ace-step-dot-circle" id="ace-step-num-1">1</div>
+            <div class="ace-step-dot-label">Type</div>
+          </div>
+          <div class="ace-step-connector" id="ace-connector-1"></div>
+          <div class="ace-step-dot" id="ace-step-dot-2">
+            <div class="ace-step-dot-circle" id="ace-step-num-2">2</div>
+            <div class="ace-step-dot-label">Location</div>
+          </div>
+          <div class="ace-step-connector" id="ace-connector-2"></div>
+          <div class="ace-step-dot" id="ace-step-dot-3">
+            <div class="ace-step-dot-circle" id="ace-step-num-3">3</div>
+            <div class="ace-step-dot-label">Size</div>
+          </div>
+          <div class="ace-step-connector" id="ace-connector-3"></div>
+          <div class="ace-step-dot" id="ace-step-dot-4">
+            <div class="ace-step-dot-circle" id="ace-step-num-4">4</div>
+            <div class="ace-step-dot-label">Quality</div>
+          </div>
+          <div class="ace-step-connector" id="ace-connector-4"></div>
+          <div class="ace-step-dot" id="ace-step-dot-5">
+            <div class="ace-step-dot-circle" id="ace-step-num-5">5</div>
+            <div class="ace-step-dot-label">Execution</div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Type -->
+        <div class="ace-step-panel ace-card active" id="ace-step-1">
+          <div class="ace-step-panel-header">
+            <div class="ace-step-icon">🏠</div>
+            <div>
+              <h3 class="ace-step-panel-title">What type of project?</h3>
+              <p class="ace-step-panel-desc">Tell us the nature of your construction project.</p>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">Project Category</label>
+            <div class="ace-radio-group">
+              <label class="ace-radio-card">
+                <input type="radio" name="project_category" value="residential" checked>
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏠</span>
+                  <span class="label">Residential</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="project_category" value="commercial">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏢</span>
+                  <span class="label">Commercial</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="project_category" value="renovation">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🔨</span>
+                  <span class="label">Renovation</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="project_category" value="mixed">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏬</span>
+                  <span class="label">Mixed Use</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="ace-form-group">
+            <label class="ace-form-label">Residential Sub-Type</label>
+            <div class="ace-radio-group">
+              <label class="ace-radio-card">
+                <input type="radio" name="residential_subtype" value="house" checked>
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏡</span>
+                  <span class="label">House</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="residential_subtype" value="villa">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏰</span>
+                  <span class="label">Villa</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="residential_subtype" value="farmhouse">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🌲</span>
+                  <span class="label">Farmhouse</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="ace-form-group">
+            <label class="ace-form-label">Number of Stories</label>
+            <div class="ace-input-addon-group" style="max-width: 200px;">
+              <input type="number" name="stories" id="ace-stories" class="ace-input" value="1" min="1" max="10">
+              <span class="ace-select" style="text-align: center; pointer-events: none; padding-right: 0;">Floor(s)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Location -->
+        <div class="ace-step-panel ace-card" id="ace-step-2">
+          <div class="ace-step-panel-header">
+            <div class="ace-step-icon">📍</div>
+            <div>
+              <h3 class="ace-step-panel-title">Where is the project located?</h3>
+              <p class="ace-step-panel-desc">Location impacts material logistics and labor rates.</p>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">City</label>
+            <select name="city" id="ace-city" class="ace-select">
+              <option value="multan">Multan</option>
+              <option value="lahore">Lahore</option>
+              <option value="islamabad">Islamabad</option>
+              <option value="karachi">Karachi</option>
+              <option value="rawalpindi">Rawalpindi</option>
+              <option value="faisalabad">Faisalabad</option>
+              <option value="peshawar">Peshawar</option>
+              <option value="quetta">Quetta</option>
+            </select>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">Area Zone</label>
+            <div class="ace-radio-group">
+              <label class="ace-radio-card">
+                <input type="radio" name="area_type" value="premium" checked>
+                <div class="ace-radio-card-body">
+                  <span class="icon">🌟</span>
+                  <span class="label">Premium Society</span>
+                  <span class="desc">DHA, Bahria, Royal Orchard</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="area_type" value="urban">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏢</span>
+                  <span class="label">Main City</span>
+                  <span class="desc">Urban centers, LDA/MDA</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="area_type" value="suburban">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏡</span>
+                  <span class="label">Suburban</span>
+                  <span class="desc">Standard residential areas</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="area_type" value="developing">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🚜</span>
+                  <span class="label">Developing</span>
+                  <span class="desc">Outskirts or rural</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Size -->
+        <div class="ace-step-panel ace-card" id="ace-step-3">
+          <div class="ace-step-panel-header">
+            <div class="ace-step-icon">📏</div>
+            <div>
+              <h3 class="ace-step-panel-title">Plot Size & Covered Area</h3>
+              <p class="ace-step-panel-desc">Define the exact size to calculate precise quantities.</p>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">Total Plot Size</label>
+            <div class="ace-input-addon-group">
+              <input type="number" name="plot_size" id="ace-plot-size" class="ace-input" value="5" min="1" step="0.5">
+              <select name="plot_unit" id="ace-plot-unit" class="ace-select">
+                <option value="marla">Marla (225 sqft)</option>
+                <option value="kanal">Kanal (4500 sqft)</option>
+                <option value="sqft">Sq. Ft.</option>
+              </select>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">Estimated Covered Area (Sq. Ft.)</label>
+            <div class="ace-range-wrapper">
+              <input type="range" id="ace-covered-area-range" min="500" max="20000" step="50" value="1800">
+              <input type="number" id="ace-covered-area-input" name="covered_area" class="ace-input" value="1800">
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <label class="ace-form-label">Optional Add-ons</label>
+            <div class="ace-checkbox-grid">
+              <label class="ace-checkbox-card">
+                <input type="checkbox" name="addon_basement" id="addon_basement">
+                <span class="ace-checkbox-card-content">🕳️ Full Basement</span>
+              </label>
+              <label class="ace-checkbox-card">
+                <input type="checkbox" name="addon_pool" id="addon_pool">
+                <span class="ace-checkbox-card-content">🏊 Swimming Pool</span>
+              </label>
+              <label class="ace-checkbox-card">
+                <input type="checkbox" name="addon_lawn" id="addon_lawn">
+                <span class="ace-checkbox-card-content">🌳 Landscaping</span>
+              </label>
+              <label class="ace-checkbox-card">
+                <input type="checkbox" name="addon_rooftop" id="addon_rooftop">
+                <span class="ace-checkbox-card-content">🌱 Rooftop Garden</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Quality -->
+        <div class="ace-step-panel ace-card" id="ace-step-4">
+          <div class="ace-step-panel-header">
+            <div class="ace-step-icon">✨</div>
+            <div>
+              <h3 class="ace-step-panel-title">Material Quality</h3>
+              <p class="ace-step-panel-desc">Select the finish standard. Prices automatically adapt to market quotes.</p>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <div class="ace-quality-grid">
+              <label class="ace-quality-card aplus selected" onclick="aceApp.selectQuality('aplus', this)">
+                <input type="radio" name="quality" value="aplus" checked style="display:none;">
+                <span class="q-icon">💎</span>
+                <div class="q-name">A+ Premium</div>
+                <div class="q-desc">Imported tiles, high-grade fittings, top-tier steel & cement brands. Luxury woodwork.</div>
+              </label>
+              <label class="ace-quality-card a" onclick="aceApp.selectQuality('a', this)">
+                <input type="radio" name="quality" value="a" style="display:none;">
+                <span class="q-icon">🏠</span>
+                <div class="q-name">A Standard</div>
+                <div class="q-desc">Excellent local brands, grade-60 steel, standard solid doors, quality sanitary.</div>
+              </label>
+              <label class="ace-quality-card b" onclick="aceApp.selectQuality('b', this)">
+                <input type="radio" name="quality" value="b" style="display:none;">
+                <span class="q-icon">🧱</span>
+                <div class="q-name">B Budget</div>
+                <div class="q-desc">Budget-friendly local materials, standard finish, basic wiring and plumbing fittings.</div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: Execution -->
+        <div class="ace-step-panel ace-card" id="ace-step-5">
+          <div class="ace-step-panel-header">
+            <div class="ace-step-icon">🛠️</div>
+            <div>
+              <h3 class="ace-step-panel-title">Project Execution</h3>
+              <p class="ace-step-panel-desc">How will you manage the construction?</p>
+            </div>
+          </div>
+          <div class="ace-form-group">
+            <div class="ace-radio-group">
+              <label class="ace-radio-card">
+                <input type="radio" name="execution" value="self" checked>
+                <div class="ace-radio-card-body">
+                  <span class="icon">👷</span>
+                  <span class="label">Self-Managed</span>
+                  <span class="desc">You buy materials, hire labor directly. Lowest overhead.</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="execution" value="consultant">
+                <div class="ace-radio-card-body">
+                  <span class="icon">📈</span>
+                  <span class="label">Consultant Led</span>
+                  <span class="desc">Managed by an engineer/consultant for a fee.</span>
+                </div>
+              </label>
+              <label class="ace-radio-card">
+                <input type="radio" name="execution" value="turnkey">
+                <div class="ace-radio-card-body">
+                  <span class="icon">🏢</span>
+                  <span class="label">Turnkey Builder</span>
+                  <span class="desc">A builder handles everything. Highest premium.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard Nav -->
+        <div class="ace-wizard-nav">
+          <button type="button" class="ace-btn ace-btn-secondary" id="ace-prev-btn" onclick="aceApp.prevStep()" style="display: none;">Back</button>
+          <div style="flex:1;"></div>
+          <button type="button" class="ace-btn ace-btn-primary" id="ace-next-btn" onclick="aceApp.nextStep()">Next Step</button>
+          <button type="button" class="ace-btn ace-btn-primary" id="ace-calc-btn" onclick="aceApp.calculate()" style="display: none;">Generate Estimate</button>
+        </div>
+      </div>
+      
+      <!-- ── WIZARD RESULT DASHBOARD ── -->
+      <div class="ace-result-panel" id="ace-result-panel" style="display:none;">
+        <div class="ace-result-hero" id="print-hero">
+          <h2 class="ace-result-title">Project Estimate Summary</h2>
+          <div class="ace-result-amount" id="res-total">PKR 0</div>
+          <div class="ace-result-sub" id="res-title-desc">Based on your inputs for Multan</div>
+          <div class="ace-result-chips" id="res-chips"></div>
+        </div>
+
+        <div class="ace-range-display">
+          <div class="ace-range-item low">
+            <div class="ace-range-label">Expected Low</div>
+            <div class="ace-range-value" id="res-low">PKR 0</div>
+          </div>
+          <div class="ace-range-item mid">
+            <div class="ace-range-label">Expected Cost</div>
+            <div class="ace-range-value" id="res-mid">PKR 0</div>
+          </div>
+          <div class="ace-range-item high">
+            <div class="ace-range-label">Expected High</div>
+            <div class="ace-range-value" id="res-high">PKR 0</div>
+          </div>
+        </div>
+
+        <div class="ace-charts-grid">
+          <div class="ace-chart-card">
+            <h3>Material vs Labour</h3>
+            <div style="position: relative; height: 250px; width: 100%;">
+              <canvas id="chart-material"></canvas>
+            </div>
+          </div>
+          <div class="ace-chart-card">
+            <h3>Grey Structure vs Finishing</h3>
+            <div style="position: relative; height: 250px; width: 100%;">
+              <canvas id="chart-structure"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="ace-table-wrap">
+          <table class="ace-table" id="res-table">
+            <thead>
+              <tr>
+                <th>Work Category</th>
+                <th>Estimated Cost</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody id="res-tbody">
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Total Estimated Cost</td>
+                <td id="res-table-total">PKR 0</td>
+                <td>100%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="ace-result-actions">
+          <button type="button" class="ace-btn ace-btn-secondary" onclick="aceApp.startOver()">Start Over</button>
+          <button type="button" class="ace-btn ace-btn-primary" onclick="aceApp.downloadPDF('wizard')">📄 Download PDF</button>
+          <a href="#" target="_blank" class="ace-btn ace-btn-whatsapp" id="whatsapp-link">WhatsApp Discuss</a>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    function calculateCost() {
-      const type = document.getElementById('projType').value;
-      const quality = document.getElementById('quality').value;
-      const unit = document.getElementById('unit').value;
-      const areaInput = parseFloat(document.getElementById('area').value);
+    <!-- ── MANUAL BUILDER MODE ── -->
+    <div id="ace-builder-mode" style="display: none;">
+      <div class="ace-card">
+        <div class="ace-step-panel-header" style="margin-bottom: 24px; padding-bottom: 24px;">
+          <div class="ace-step-icon">📋</div>
+          <div>
+            <h3 class="ace-step-panel-title">Spreadsheet Cost Builder</h3>
+            <p class="ace-step-panel-desc">Build your custom estimate row by row. Values calculate automatically.</p>
+          </div>
+        </div>
 
-      if (isNaN(areaInput) || areaInput <= 0) {
-        alert("Please enter a valid area.");
-        return;
-      }
+        <div class="ace-builder-actions">
+          <button type="button" class="ace-btn ace-btn-primary" onclick="aceBuilder.addRow()">➕ Add Row</button>
+          <div>
+            <button type="button" class="ace-btn ace-btn-secondary" onclick="aceBuilder.resetTable()">🧹 Reset Defaults</button>
+            <button type="button" class="ace-btn ace-btn-primary" onclick="aceApp.downloadPDF('builder')" style="margin-left: 8px;">📄 Export PDF</button>
+          </div>
+        </div>
 
-      // Convert area to sqft (Multan standard: 1 Marla = 225 sqft, 1 Kanal = 20 Marla = 4500 sqft)
-      let sqft = 0;
-      if (unit === 'marla') sqft = areaInput * 225;
-      else if (unit === 'kanal') sqft = areaInput * 4500;
-      else sqft = areaInput;
+        <div class="ace-table-wrap" id="builder-print-area">
+          <table class="ace-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Item Name</th>
+                <th style="width: 20%;">Category</th>
+                <th style="width: 15%;">Unit</th>
+                <th style="width: 15%;">Rate (PKR)</th>
+                <th style="width: 10%;">Qty</th>
+                <th style="width: 10%;">Wastage %</th>
+                <th style="width: 15%;">Total (PKR)</th>
+                <th class="no-print" style="width: 5%;">Act</th>
+              </tr>
+            </thead>
+            <tbody id="builder-tbody">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
 
-      // Double the sqft for multi-story (assuming standard 2-story for house, but let's keep it single story covered area for simplicity, user enters covered area)
-      // Usually users enter plot size, so covered area is approx 80% per floor * 2 floors = 1.6 * plot size
-      // We will assume 'area' input is the total covered area intended to build.
+        <div class="ace-builder-summary">
+          <span class="ace-builder-total-label">Grand Total:</span>
+          <span class="ace-builder-total-val" id="builder-grand-total">PKR 0</span>
+        </div>
+      </div>
+    </div>
+  </main>
 
-      // Define rates per sqft based on quality
-      // Rates are approximate PKR for 2024
-      const rates = {
-        economy: 3800,
-        standard: 4800,
-        premium: 6500,
-        ultra: 8500
-      };
-
-      // Type multipliers (commercial is slightly more expensive due to height/structure)
-      let multiplier = 1.0;
-      if (type === 'plaza') multiplier = 1.2;
-      if (type === 'shop') multiplier = 1.1;
-      if (type === 'farmhouse') multiplier = 1.15;
-
-      const ratePerSqft = rates[quality] * multiplier;
-      const totalCost = sqft * ratePerSqft;
-
-      // Breakdown percentages
-      const pctGrey = 0.55; // 55%
-      const pctFinish = 0.30; // 30%
-      const pctMEP = 0.15; // 15%
-
-      // Format currency
-      const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 }).format(amount);
-      };
-
-      // Update UI
-      document.getElementById('totalCost').innerText = formatCurrency(totalCost);
-      document.getElementById('resSqft').innerText = sqft.toLocaleString();
-      document.getElementById('resRate').innerText = ratePerSqft.toLocaleString();
-      
-      document.getElementById('brkGrey').innerText = formatCurrency(totalCost * pctGrey);
-      document.getElementById('brkFinish').innerText = formatCurrency(totalCost * pctFinish);
-      document.getElementById('brkMEP').innerText = formatCurrency(totalCost * pctMEP);
-
-      const resultBox = document.getElementById('resultBox');
-      resultBox.classList.remove('active');
-      void resultBox.offsetWidth; // trigger reflow
-      resultBox.classList.add('active');
-      
-      // Scroll to result
-      setTimeout(() => {
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 100);
-    }
-  </script>
+  <!-- External CDNs for Charts & PDF -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <!-- Local App Logic -->
+  <script src="js/calculator.js"></script>
 </body>
 </html>
